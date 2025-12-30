@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 
+import 'app_text.dart';
+
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
     required this.onPressed,
-    required this.child,
+    this.icon,
     this.color,
     this.isChildIcon,
     this.borderRadius,
     this.padding,
     this.isGradientColored,
-    this.shape,
+    this.shape, this.text,
   });
 
   final void Function() onPressed;
-  final Widget child;
+  final Widget? icon;
   final Color? color;
   final bool? isChildIcon;
   final double? borderRadius;
   final EdgeInsetsGeometry? padding;
   final bool? isGradientColored;
   final OutlinedBorder? shape;
+  final String? text;
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +45,15 @@ class AppButton extends StatelessWidget {
         style: ButtonStyle(
           elevation: const WidgetStatePropertyAll(0),
           alignment: AlignmentGeometry.center,
-          padding: WidgetStatePropertyAll(padding),
+          padding: WidgetStatePropertyAll(padding??EdgeInsetsGeometry.symmetric(vertical: 16)),
           shape: WidgetStatePropertyAll(
             isChildIcon ?? false
                 ? RoundedSuperellipseBorder(
                     borderRadius: BorderRadiusGeometry.circular(8),
                   )
-                : shape,
+                : shape??RoundedSuperellipseBorder(
+              borderRadius: BorderRadiusGeometry.circular(8),
+            ),
           ),
           backgroundColor: isGradientColored ?? false
               ? const WidgetStatePropertyAll(Colors.transparent)
@@ -55,7 +61,7 @@ class AppButton extends StatelessWidget {
                   color ?? ColorScheme.of(context).primaryContainer,
                 ),
         ),
-        child: child,
+        child:isChildIcon??false?icon:AppText(text??"",style: Theme.of(context).textTheme.bodyMedium,),
       ),
     );
   }

@@ -13,7 +13,9 @@ class AppInputText extends StatefulWidget {
     this.title,
     this.haveTitle,
     this.padding,
-    this.obscuringCharacter = '•', this.borderRadius, this.fillColor,
+    this.obscuringCharacter = '•',
+    this.borderRadius,
+    this.fillColor, this.borderWidth, this.textInputType,
   });
 
   final TextEditingController? controller;
@@ -24,9 +26,14 @@ class AppInputText extends StatefulWidget {
   final String? hintText;
   final FormFieldValidator<String>? validator;
   final EdgeInsetsGeometry? padding;
-  final String obscuringCharacter ;
-  final double? borderRadius ;
-  final Color? fillColor ;
+  final String obscuringCharacter;
+
+  final double? borderRadius;
+
+  final Color? fillColor;
+
+  final double? borderWidth;
+  final TextInputType? textInputType;
 
   @override
   State<AppInputText> createState() => _CustomTextFormFieldState();
@@ -34,7 +41,8 @@ class AppInputText extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<AppInputText> {
   bool passwordIsHidden = true;
-
+  double borderWidth=1;
+  double borderRadius=8;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,8 +57,7 @@ class _CustomTextFormFieldState extends State<AppInputText> {
           // data:Theme.of(context).inputDecorationTheme,
           labelStyle: TextTheme.of(context).titleMedium,
           filled: true,
-
-          fillColor: widget.fillColor,
+          fillColor: widget.fillColor ?? Theme.of(context).colorScheme.surface,
           floatingLabelStyle: TextTheme.of(
             context,
           ).titleMedium?.copyWith(fontSize: 25),
@@ -62,36 +69,36 @@ class _CustomTextFormFieldState extends State<AppInputText> {
 
           focusedBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ??8),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.outline,
-              width: 2,
+              width: widget.borderWidth ?? borderWidth,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ??8),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.outline,
-              width: 2,
+              width: widget.borderWidth ?? borderWidth,
             ),
           ),
           errorMaxLines: 2,
           errorStyle: TextTheme.of(context).displaySmall,
           errorBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ??8),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.error,
-              width: 2,
+              width: widget.borderWidth ?? borderWidth,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ??8),
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.error,
-              width: 2,
+              width: widget.borderWidth ?? borderWidth,
             ),
           ),
 
@@ -101,6 +108,7 @@ class _CustomTextFormFieldState extends State<AppInputText> {
             style: Theme.of(context).textTheme.displayMedium,
             obscureText: widget.isPasswordField ? passwordIsHidden : false,
             obscuringCharacter: widget.obscuringCharacter,
+            keyboardType: widget.textInputType,
             decoration: InputDecoration(
               labelText: widget.labelText,
               hintText: widget.hintText ?? "",

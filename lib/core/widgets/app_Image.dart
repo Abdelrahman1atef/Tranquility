@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,6 +25,13 @@ class AppImage extends StatelessWidget {
     if (image.toLowerCase().startsWith("http") ||
         image.toLowerCase().startsWith("https")) {
       return Image.network(image, fit: fit, height: height, width: width);
+    } else if (image.toLowerCase().startsWith("/data")) {
+      return Image.file(
+        File(image),
+        fit: fit,
+        height: height,
+        width: width,
+      );
     } else if (image.toLowerCase().endsWith(".jpg") ||
         image.toLowerCase().endsWith(".jpeg") ||
         image.toLowerCase().endsWith(".png")) {

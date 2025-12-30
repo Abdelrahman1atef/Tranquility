@@ -52,7 +52,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                       children: [
                         AppText(
                           item.title,
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         SizedBox(height: 24),
                         AppText(

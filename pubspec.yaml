@@ -41,6 +41,8 @@ dependencies:
   pretty_dio_logger:
   pin_code_fields:
   dotted_border:
+  permission_handler:
+  image_picker:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -51,7 +53,7 @@ dev_dependencies:
   freezed:
   build_runner:
   flutter_gen_runner:
-
+  device_preview:
 flutter:
   uses-material-design: true
 

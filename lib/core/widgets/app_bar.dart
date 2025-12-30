@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
+import 'app_Image.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     required this.haveTitle,
     required this.haveSearchBar,
     this.title,
-    this.haveAction,
+    this.haveAction, this.centerTitle, this.haveDrawer,
   });
 
   final bool haveTitle, haveSearchBar;
-  final bool? haveAction;
+  final bool? haveAction,centerTitle;
   final String? title;
+  final bool? haveDrawer;
 
   @override
   Size get preferredSize => Size.fromHeight(
-    kToolbarHeight + (haveSearchBar && haveTitle ? kToolbarHeight : 25),
+    kToolbarHeight + (haveSearchBar && haveTitle ? kToolbarHeight : 0),
   );
 
   @override
@@ -26,18 +29,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
       leadingWidth: 50,
-      // leading: Navigator.canPop(context)
-      //     ? Padding(
-      //       padding: const EdgeInsetsGeometry.symmetric(horizontal: 10),
-      //       child: CircleAvatar(
-      //       maxRadius: 20,
-      //       backgroundColor: Theme.of(context).hintColor.withValues(
-      //         alpha: 0.3
-      //       ),
-      //       child: const AppImage(image: "arrow_back.svg")),
-      //     )
-      //     : null,
-      centerTitle: true,
+      leading:haveDrawer??false? GestureDetector(
+        // onTap: () => Navigator.pop(context),
+        child: Padding(
+          padding: EdgeInsetsGeometry.only(left: 16),
+          child: const AppImage(image: "drawer.svg"),
+        ),
+      ):Navigator.canPop(context)
+          ? GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Padding(
+                padding: EdgeInsetsGeometry.only(left: 16),
+                child: const AppImage(image: "arrow_back.svg"),
+              ),
+            )
+          : null,
+      centerTitle: centerTitle,
       title: haveTitle
           ? Text(
               title ?? "",

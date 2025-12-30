@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_input_text.dart';
+import 'package:tranquility/views/forget_password.dart';
+import 'package:tranquility/views/home/view.dart';
+import 'package:tranquility/views/register.dart';
 
 import '../core/widgets/app_Image.dart';
 import '../core/widgets/app_text.dart';
@@ -12,81 +15,184 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Padding(
-        padding: const EdgeInsetsGeometry.only(top: kToolbarHeight),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppImage(image: "login.png"),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    "Welcome To",
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                  SizedBox(height: 6),
-                  AppText(
-                    "Tranquility",
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  SizedBox(height: 6),
-                  AppInputText(
-                    hintText: "Phone Number",
-                    fillColor: Theme.of(context).colorScheme.surface,
-                  ),
-                  SizedBox(height: 16),
-                  AppInputText(
-                    hintText: "Password",
-                    isPasswordField: true,
-                    fillColor: Theme.of(context).colorScheme.surface,
-                  ),
-                  SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        child: AppText(
-                          "Forgot Password?",
-                          style: Theme.of(context).textTheme.headlineMedium,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsetsGeometry.only(top: kToolbarHeight),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppImage(image: "login.png"),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      "Welcome To",
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                    SizedBox(height: 6),
+                    AppText(
+                      "Tranquility",
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    SizedBox(height: 6),
+                    AppInputText(
+                      hintText: "Phone Number",
+                      fillColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    SizedBox(height: 16),
+                    AppInputText(
+                      hintText: "Password",
+                      isPasswordField: true,
+                      fillColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgetPasswordView(),
+                            ),
+                          ),
+                          child: AppText(
+                            "Forgot Password?",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                    ],
-                  ),
-                      SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 10,
-                    children: [
-                      AppButton(
-                        onPressed: () {},
-                        isChildIcon: true,
-                        padding: EdgeInsetsGeometry.symmetric(vertical: 18),
-                        color: Theme.of(context).colorScheme.surface,
-                        shape: RoundedSuperellipseBorder(borderRadius: BorderRadiusGeometry.circular(8)),
-                        child: AppImage(image: "finger_print.svg"),
-                      ),
-
-                      Expanded(
-                        child: AppButton(
+                        SizedBox(width: 10),
+                      ],
+                    ),
+                    SizedBox(height: 50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        AppButton(
                           onPressed: () {},
-                          padding: EdgeInsetsGeometry.symmetric(vertical: 20),
-                          shape: ContinuousRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12)),
-                          borderRadius: 10,
-                          child: AppText("Log In", style: Theme.of(context).textTheme.bodyMedium),
+                          isChildIcon: true,
+                          padding: EdgeInsetsGeometry.symmetric(vertical: 18),
+                          color: Theme.of(context).colorScheme.surface,
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: BorderRadiusGeometry.circular(8),
+                          ),
+                          icon: AppImage(image: "finger_print.svg"),
                         ),
+
+                        Expanded(
+                          child: AppButton(
+                            //todo add validation for nav to home view
+                            onPressed: () => Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainView(),
+                              ),
+                              (route) => false,
+                            ),
+                            padding: EdgeInsetsGeometry.symmetric(vertical: 20),
+                            shape: ContinuousRectangleBorder(
+                              borderRadius: BorderRadiusGeometry.circular(12),
+                            ),
+                            borderRadius: 10,
+                            text: "Log In",
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterView()),
                       ),
-                    ],
-                  ),
-                ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AppText(
+                            "Don’t have an account ? ",
+                            style: Theme.of(context).textTheme.displayMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                          AppText("Sign up"),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 24),
+                    Column(
+                      spacing: 16,
+                      children: [
+                        _SocialLoginWidget(
+                          color: Color(0xFF35B542).withValues(alpha: 0.5),
+                          imageString: "google.svg",
+                          text: "Login With Google",
+                        ),
+                        _SocialLoginWidget(
+                          color: Color(0xFF518EF8).withValues(alpha: 0.5),
+                          imageString: "facebook.svg",
+                          text: "Login With Facebook",
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SocialLoginWidget extends StatelessWidget {
+  const _SocialLoginWidget({
+    required this.color,
+    required this.imageString,
+    required this.text,
+  });
+
+  final Color color;
+  final String imageString;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(minHeight: 50),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadiusGeometry.circular(8),
+      ),
+      child: Row(
+        spacing: 8,
+        children: [
+          Container(
+            constraints: BoxConstraints(minWidth: 50, minHeight: 50),
+            padding: EdgeInsetsGeometry.all(13),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+              ),
+              color: Colors.white,
+              border: Border(
+                left: BorderSide(
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                  width: 3,
+                ),
               ),
             ),
-          ],
-        ),
+            child: AppImage(image: imageString, width: 30, fit: BoxFit.cover),
+          ),
+          AppText(text, style: Theme.of(context).textTheme.bodyLarge),
+        ],
       ),
     );
   }

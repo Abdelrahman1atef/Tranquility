@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tranquility/views/home/view.dart';
 import 'package:tranquility/views/login.dart';
 import 'package:tranquility/views/onboarding.dart';
+import 'package:tranquility/views/register.dart';
 import 'package:tranquility/views/splash.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() {
-  runApp(const Tranquility());
+  runApp(
+    DevicePreview(enabled: false, builder: (context) => const Tranquility(),),
+  );
 }
 
 class Tranquility extends StatelessWidget {
@@ -13,7 +18,7 @@ class Tranquility extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoginView(),
+      home: const MainView(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFF284243),
@@ -27,7 +32,7 @@ class Tranquility extends StatelessWidget {
           primaryContainer: const Color(0xFF284243),
           seedColor: const Color(0xFF284243),
           outline: Color(0xFF284243).withValues(alpha: 0.3),
-          surface: Color(0xFF284243).withValues(alpha: 0.1),
+          surface: Color(0xFF284243).withValues(alpha: 0.05),
           error: const Color(0xFFF60000),
           errorContainer: const Color(0xFFFF3A3A),
         ),
@@ -43,21 +48,40 @@ class Tranquility extends StatelessWidget {
             fontVariations: [FontVariation("wght", 700)],
             fontSize: 18,
           ),
-          titleMedium: TextStyle(
+          titleLarge: TextStyle(
             fontFamily: "Inter",
             color: Color(0xFF284243),
             fontVariations: [FontVariation("wght", 700)],
             fontSize: 32,
           ),
-          bodyMedium:TextStyle(
+          titleMedium: TextStyle(
+            fontFamily: "Inter",
+            color: Color(0xFF000000),
+            fontVariations: [FontVariation("wght", 500)],
+            fontSize: 24,
+          ),
+          bodyLarge: TextStyle(
+            fontFamily: "Inter",
+            color: Color(0xFFFFFFFF),
+            fontVariations: [FontVariation("wght", 700)],
+            fontSize: 20,
+          ),
+          bodyMedium: TextStyle(
             fontFamily: "Inter",
             color: Color(0xFFFFFFFF),
             fontVariations: [FontVariation("wght", 500)],
             fontSize: 20,
-          ) ,
+          ),
           displayMedium: TextStyle(
             fontFamily: "Inter",
             color: Color(0xFF284243),
+            fontVariations: [FontVariation("wght", 500)],
+            fontSize: 20,
+          ),
+          displaySmall: TextStyle(
+            fontFamily: "Inter",
+            color: Color(0xFFFFFFFF),
+            fontVariations: [FontVariation("wght", 400)],
             fontSize: 20,
           ),
           labelLarge: TextStyle(
