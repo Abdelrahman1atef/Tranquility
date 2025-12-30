@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tranquility/views/home/view.dart';
-import 'package:tranquility/views/login.dart';
-import 'package:tranquility/views/onboarding.dart';
-import 'package:tranquility/views/register.dart';
-import 'package:tranquility/views/splash.dart';
+import 'package:tranquility/views/home/view/view.dart';
 import 'package:device_preview/device_preview.dart';
 
 void main() {
   runApp(
-    DevicePreview(enabled: false, builder: (context) => const Tranquility(),),
+    DevicePreview(enabled: true, builder: (context) => const Tranquility(),),
   );
 }
 
@@ -21,6 +17,13 @@ class Tranquility extends StatelessWidget {
       home: const MainView(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        drawerTheme: DrawerThemeData(
+          width: 340,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+          elevation: 0,
+          shadowColor: Theme.of(context).primaryColor,
+        ),
         primaryColor: const Color(0xFF284243),
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         hintColor: const Color(0xFF000000),
@@ -31,8 +34,8 @@ class Tranquility extends StatelessWidget {
           ///primary Container Color
           primaryContainer: const Color(0xFF284243),
           seedColor: const Color(0xFF284243),
-          outline: Color(0xFF284243).withValues(alpha: 0.3),
-          surface: Color(0xFF284243).withValues(alpha: 0.05),
+          outline: const Color(0xFF284243).withValues(alpha: 0.3),
+          surface: const Color(0xFF284243).withValues(alpha: 0.05),
           error: const Color(0xFFF60000),
           errorContainer: const Color(0xFFFF3A3A),
         ),
@@ -72,7 +75,12 @@ class Tranquility extends StatelessWidget {
             fontVariations: [FontVariation("wght", 500)],
             fontSize: 20,
           ),
-          displayMedium: TextStyle(
+          displayLarge: TextStyle(
+            fontFamily: "Inter",
+            color: Color(0xFF284243),
+            fontVariations: [FontVariation("wght", 500)],
+            fontSize: 40,
+          ),displayMedium: TextStyle(
             fontFamily: "Inter",
             color: Color(0xFF284243),
             fontVariations: [FontVariation("wght", 500)],

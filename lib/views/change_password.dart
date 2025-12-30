@@ -14,14 +14,14 @@ class ChangePasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: CustomAppBar(haveTitle: false, haveSearchBar: false),
+      appBar: const CustomAppBar(haveTitle: false, haveSearchBar: false),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppImage(image: "forget_password.png"),
+            const AppImage(image: "forget_password.png"),
             Padding(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 24),
+              padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -38,18 +38,18 @@ class ChangePasswordView extends StatelessWidget {
                       ]
                         ),
                   ),
-                  SizedBox(height: 33),
-                  AppInputText(hintText: "Password",isPasswordField: true,),
-                  SizedBox(height: 16),
-                  AppInputText(hintText: "Confirm Password",isPasswordField: true,),
-                  SizedBox(height: 33),
+                  const SizedBox(height: 33),
+                  const AppInputText(hintText: "Password",isPasswordField: true,),
+                  const SizedBox(height: 16),
+                  const AppInputText(hintText: "Confirm Password",isPasswordField: true,),
+                  const SizedBox(height: 33),
                   Row(
                     children: [
                       Expanded(
                         child: AppButton(
                           onPressed: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginView()),
+                            MaterialPageRoute(builder: (context) => const LoginView()),
                           ),
                           text: "Confirm",
                         ),

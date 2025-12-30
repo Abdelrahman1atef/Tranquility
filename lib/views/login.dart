@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_input_text.dart';
 import 'package:tranquility/views/forget_password.dart';
-import 'package:tranquility/views/home/view.dart';
+import 'package:tranquility/views/home/view/view.dart';
 import 'package:tranquility/views/register.dart';
 
 import '../core/widgets/app_Image.dart';
@@ -21,8 +21,8 @@ class LoginView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppImage(image: "login.png"),
-              SizedBox(height: 20),
+              const AppImage(image: "login.png"),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
                 child: Column(
@@ -32,23 +32,23 @@ class LoginView extends StatelessWidget {
                       "Welcome To",
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
-                    SizedBox(height: 6),
+                    const SizedBox(height: 6),
                     AppText(
                       "Tranquility",
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
-                    SizedBox(height: 6),
+                    const SizedBox(height: 6),
                     AppInputText(
                       hintText: "Phone Number",
                       fillColor: Theme.of(context).colorScheme.surface,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     AppInputText(
                       hintText: "Password",
                       isPasswordField: true,
                       fillColor: Theme.of(context).colorScheme.surface,
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -56,7 +56,7 @@ class LoginView extends StatelessWidget {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ForgetPasswordView(),
+                              builder: (context) => const ForgetPasswordView(),
                             ),
                           ),
                           child: AppText(
@@ -64,10 +64,10 @@ class LoginView extends StatelessWidget {
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                       ],
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 10,
@@ -75,12 +75,12 @@ class LoginView extends StatelessWidget {
                         AppButton(
                           onPressed: () {},
                           isChildIcon: true,
-                          padding: EdgeInsetsGeometry.symmetric(vertical: 18),
+                          padding: const EdgeInsetsGeometry.symmetric(vertical: 18),
                           color: Theme.of(context).colorScheme.surface,
                           shape: RoundedSuperellipseBorder(
                             borderRadius: BorderRadiusGeometry.circular(8),
                           ),
-                          icon: AppImage(image: "finger_print.svg"),
+                          icon: const AppImage(image: "finger_print.svg"),
                         ),
 
                         Expanded(
@@ -89,11 +89,11 @@ class LoginView extends StatelessWidget {
                             onPressed: () => Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MainView(),
+                                builder: (context) => const MainView(),
                               ),
                               (route) => false,
                             ),
-                            padding: EdgeInsetsGeometry.symmetric(vertical: 20),
+                            padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
                             shape: ContinuousRectangleBorder(
                               borderRadius: BorderRadiusGeometry.circular(12),
                             ),
@@ -103,11 +103,11 @@ class LoginView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () => Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => RegisterView()),
+                        MaterialPageRoute(builder: (context) => const RegisterView()),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -119,22 +119,22 @@ class LoginView extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                           ),
-                          AppText("Sign up"),
+                          const AppText("Sign up"),
                         ],
                       ),
                     ),
 
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     Column(
                       spacing: 16,
                       children: [
                         _SocialLoginWidget(
-                          color: Color(0xFF35B542).withValues(alpha: 0.5),
+                          color: const Color(0xFF35B542).withValues(alpha: 0.5),
                           imageString: "google.svg",
                           text: "Login With Google",
                         ),
                         _SocialLoginWidget(
-                          color: Color(0xFF518EF8).withValues(alpha: 0.5),
+                          color: const Color(0xFF518EF8).withValues(alpha: 0.5),
                           imageString: "facebook.svg",
                           text: "Login With Facebook",
                         ),
@@ -165,7 +165,7 @@ class _SocialLoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 50),
+      constraints: const BoxConstraints(minHeight: 50),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadiusGeometry.circular(8),
@@ -174,10 +174,10 @@ class _SocialLoginWidget extends StatelessWidget {
         spacing: 8,
         children: [
           Container(
-            constraints: BoxConstraints(minWidth: 50, minHeight: 50),
-            padding: EdgeInsetsGeometry.all(13),
+            constraints: const BoxConstraints(minWidth: 50, minHeight: 50),
+            padding: const EdgeInsetsGeometry.all(13),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 bottomLeft: Radius.circular(8),
               ),

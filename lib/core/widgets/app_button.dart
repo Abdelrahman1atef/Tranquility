@@ -29,37 +29,38 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: isGradientColored ?? false
-          ? BoxDecoration(
-              borderRadius: BorderRadiusGeometry.circular(borderRadius ?? 0),
-              gradient: LinearGradient(
+      height: isChildIcon?? false?60:null,
+      width: isChildIcon?? false?60:null,
+      padding: padding??const EdgeInsetsGeometry.all(0),
+      decoration:
+           BoxDecoration(
+        color: isGradientColored ?? false
+            ? Colors.transparent
+            : color ?? ColorScheme.of(context).primaryContainer,
+              borderRadius: BorderRadiusGeometry.circular(borderRadius ?? 8),
+           gradient:isGradientColored ?? false? LinearGradient(
                 colors: [
                   ColorScheme.of(context).secondaryContainer,
                   ColorScheme.of(context).primaryContainer,
                 ],
-              ),
-            )
-          : null,
+              ): null,
+            ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
+          backgroundColor:WidgetStatePropertyAll(Colors.transparent) ,
+          padding: WidgetStatePropertyAll(EdgeInsetsDirectional.all(0)),
           elevation: const WidgetStatePropertyAll(0),
           alignment: AlignmentGeometry.center,
-          padding: WidgetStatePropertyAll(padding??EdgeInsetsGeometry.symmetric(vertical: 16)),
           shape: WidgetStatePropertyAll(
             isChildIcon ?? false
                 ? RoundedSuperellipseBorder(
-                    borderRadius: BorderRadiusGeometry.circular(8),
+                    borderRadius: BorderRadiusGeometry.circular(16),
                   )
                 : shape??RoundedSuperellipseBorder(
               borderRadius: BorderRadiusGeometry.circular(8),
             ),
           ),
-          backgroundColor: isGradientColored ?? false
-              ? const WidgetStatePropertyAll(Colors.transparent)
-              : WidgetStatePropertyAll(
-                  color ?? ColorScheme.of(context).primaryContainer,
-                ),
         ),
         child:isChildIcon??false?icon:AppText(text??"",style: Theme.of(context).textTheme.bodyMedium,),
       ),

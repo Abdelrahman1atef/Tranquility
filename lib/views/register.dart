@@ -94,7 +94,7 @@ class _RegisterViewState extends State<RegisterView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 GestureDetector(
                   onTap: () {
                     showModalBottomSheet(
@@ -102,11 +102,11 @@ class _RegisterViewState extends State<RegisterView> {
                       builder: (context) =>
                           Container(
                             height: 250,
-                            padding: EdgeInsetsGeometry.symmetric(
+                            padding: const EdgeInsetsGeometry.symmetric(
                               vertical: 50,
                               horizontal: 24,
                             ),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.elliptical(2, 5),
                                 topRight: Radius.circular(18),
@@ -122,18 +122,18 @@ class _RegisterViewState extends State<RegisterView> {
                                       .textTheme
                                       .titleMedium,
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   spacing: 72,
                                   children: [
                                     InkWell(
                                       onTap: () => _openCamera(),
-                                      child: AppImage(image: "camera.svg"),
+                                      child: const AppImage(image: "camera.svg"),
                                     ),
                                     InkWell(
                                       onTap: () =>_openGallery(),
-                                      child: AppImage(image: "gallary.svg"),
+                                      child: const AppImage(image: "gallary.svg"),
                                     ),
                                   ],
                                 ),
@@ -145,7 +145,7 @@ class _RegisterViewState extends State<RegisterView> {
                   child: Stack(
                     children: [
                       imageSelected == ""
-                          ? AppImage(image: "pick_image.svg")
+                          ? const AppImage(image: "pick_image.svg")
                           : ClipRRect(
                         borderRadius: BorderRadiusGeometry.circular(100),
                         child: AppImage(
@@ -165,9 +165,9 @@ class _RegisterViewState extends State<RegisterView> {
                                 .of(context)
                                 .primaryColor,
                           ),
-                          padding: EdgeInsetsGeometry.all(10),
+                          padding: const EdgeInsetsGeometry.all(10),
                           child: imageSelected == ""
-                              ? AppImage(image: "add.svg") : AppImage(
+                              ? const AppImage(image: "add.svg") : const AppImage(
                               image: "edit.svg"),
                         ),
                       ),
@@ -181,19 +181,19 @@ class _RegisterViewState extends State<RegisterView> {
                                 .primaryColor
                                 .withValues(alpha: 0.25),
                           ),
-                          padding: EdgeInsetsGeometry.all(10),
+                          padding: const EdgeInsetsGeometry.all(10),
                           child:
                           InkWell(
                               onTap: () =>
                                   setState(() {
                                     imageSelected = "";
                                   }),
-                              child: AppImage(image: "delete_chat.svg")),
+                              child: const AppImage(image: "delete_chat.svg")),
                         )
                     ],
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
                   child: Column(
@@ -220,7 +220,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                             CustomDropdownMenu(
                               hintText: "Gender",
-                              icon: AppImage(image: "arrow_down.svg"),
+                              icon: const AppImage(image: "arrow_down.svg"),
                               onChanged: (value) {
                                 print(value);
                               },
@@ -246,12 +246,12 @@ class _RegisterViewState extends State<RegisterView> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 26),
+                      const SizedBox(height: 26),
                       Row(
                         children: [
                           Expanded(
                             child: AppButton(
-                              padding: EdgeInsetsGeometry.symmetric(
+                              padding: const EdgeInsetsGeometry.symmetric(
                                   vertical: 16),
                               shape: RoundedSuperellipseBorder(
                                 borderRadius: BorderRadiusGeometry.circular(8),
@@ -263,7 +263,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        OtpView(isForgetPassword: false),
+                                        const OtpView(isForgetPassword: false),
                                   ),
                                 );
                               },
@@ -272,13 +272,13 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () =>
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LoginView()),
+                                  builder: (context) => const LoginView()),
                             ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -296,7 +296,7 @@ class _RegisterViewState extends State<RegisterView> {
                                     .primary,
                               ),
                             ),
-                            AppText("Login"),
+                            const AppText("Login"),
                           ],
                         ),
                       ),

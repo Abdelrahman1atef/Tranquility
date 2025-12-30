@@ -14,7 +14,7 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   final controller = PageController();
   int currentPage = 0;
-  final duration = Duration(milliseconds: 300);
+  final duration = const Duration(milliseconds: 300);
   final curve = Curves.easeIn;
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               Column(
                 children: [
                   AppImage(image: item.image),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsetsGeometry.symmetric(horizontal: 20),
                     child: Column(
@@ -54,7 +54,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                           item.title,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        SizedBox(height: 24),
+                        const SizedBox(height: 24),
                         AppText(
                           item.description
                               .split(' ')
@@ -84,7 +84,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                       //todo add nav to next screen
                       TextButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => LoginView(),),(route) => false,);
+                          Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const LoginView(),),(route) => false,);
                         },
                         child: AppText(
                           "Skip",
@@ -92,23 +92,23 @@ class _OnboardingViewState extends State<OnboardingView> {
                         ),
                       ),
               if (index == onboardingItems.length - 1)
-                      SizedBox.shrink(),
+                      const SizedBox.shrink(),
                       InkWell(
                         onTap: () {
                           if(index == onboardingItems.length - 1){
-                            Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => LoginView(),),(route) => false,);
+                            Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const LoginView(),),(route) => false,);
                             return;
                           }
                           controller.animateToPage(
                               ++currentPage, duration: duration, curve: curve);
                         },
                         child: Container(
-                          padding: EdgeInsetsGeometry.all(14),
+                          padding: const EdgeInsetsGeometry.all(14),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.primaryContainer,
                           ),
-                          child: AppImage(image: "arrow.svg"),
+                          child: const AppImage(image: "arrow.svg"),
                         ),
                       ),
                     ],

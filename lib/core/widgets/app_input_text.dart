@@ -15,25 +15,22 @@ class AppInputText extends StatefulWidget {
     this.padding,
     this.obscuringCharacter = '•',
     this.borderRadius,
-    this.fillColor, this.borderWidth, this.textInputType,
+    this.fillColor,
+    this.borderWidth,
+    this.textInputType, this.maxLines, this.borderColor,
   });
 
   final TextEditingController? controller;
-  final bool isPasswordField;
-  final String? title;
-  final bool? haveTitle;
-  final String? labelText;
-  final String? hintText;
   final FormFieldValidator<String>? validator;
   final EdgeInsetsGeometry? padding;
-  final String obscuringCharacter;
-
-  final double? borderRadius;
-
-  final Color? fillColor;
-
-  final double? borderWidth;
   final TextInputType? textInputType;
+  final Color? fillColor,borderColor;
+  final bool isPasswordField;
+  final bool? haveTitle;
+  final int? maxLines;
+  final double? borderRadius,borderWidth;
+  final String obscuringCharacter;
+  final String? title,labelText,hintText;
 
   @override
   State<AppInputText> createState() => _CustomTextFormFieldState();
@@ -41,8 +38,9 @@ class AppInputText extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<AppInputText> {
   bool passwordIsHidden = true;
-  double borderWidth=1;
-  double borderRadius=8;
+  double borderWidth = 1;
+  double borderRadius = 8;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -69,17 +67,21 @@ class _CustomTextFormFieldState extends State<AppInputText> {
 
           focusedBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
+            borderRadius: BorderRadius.circular(
+              widget.borderRadius ?? borderRadius,
+            ),
             borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.outline,
+              color: widget.borderColor??Theme.of(context).colorScheme.outline,
               width: widget.borderWidth ?? borderWidth,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
+            borderRadius: BorderRadius.circular(
+              widget.borderRadius ?? borderRadius,
+            ),
             borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.outline,
+              color: widget.borderColor??Theme.of(context).colorScheme.outline,
               width: widget.borderWidth ?? borderWidth,
             ),
           ),
@@ -87,7 +89,9 @@ class _CustomTextFormFieldState extends State<AppInputText> {
           errorStyle: TextTheme.of(context).displaySmall,
           errorBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
+            borderRadius: BorderRadius.circular(
+              widget.borderRadius ?? borderRadius,
+            ),
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.error,
               width: widget.borderWidth ?? borderWidth,
@@ -95,7 +99,9 @@ class _CustomTextFormFieldState extends State<AppInputText> {
           ),
           focusedErrorBorder: OutlineInputBorder(
             gapPadding: 16,
-            borderRadius: BorderRadius.circular(widget.borderRadius ?? borderRadius),
+            borderRadius: BorderRadius.circular(
+              widget.borderRadius ?? borderRadius,
+            ),
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.error,
               width: widget.borderWidth ?? borderWidth,
@@ -109,13 +115,14 @@ class _CustomTextFormFieldState extends State<AppInputText> {
             obscureText: widget.isPasswordField ? passwordIsHidden : false,
             obscuringCharacter: widget.obscuringCharacter,
             keyboardType: widget.textInputType,
+            maxLines: widget.maxLines,
             decoration: InputDecoration(
               labelText: widget.labelText,
               hintText: widget.hintText ?? "",
               suffixIcon: widget.isPasswordField
                   ? passwordIsHidden
                         ? IconButton(
-                            icon: AppImage(image: "visibility_off.svg"),
+                            icon: const AppImage(image: "visibility_off.svg"),
                             onPressed: () {
                               setState(() {
                                 passwordIsHidden = false;
@@ -123,7 +130,7 @@ class _CustomTextFormFieldState extends State<AppInputText> {
                             },
                           )
                         : IconButton(
-                            icon: AppImage(image: "visibility.svg"),
+                            icon: const AppImage(image: "visibility.svg"),
                             onPressed: () {
                               setState(() {
                                 passwordIsHidden = true;

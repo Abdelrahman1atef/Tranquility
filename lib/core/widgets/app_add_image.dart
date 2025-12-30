@@ -17,7 +17,7 @@ class _AppAddImageState extends State<AppAddImage> {
   @override
   Widget build(BuildContext context) {
     return widget.shapeIsCircle == false
-        ? ClipRRect(
+        ? const ClipRRect(
 
     ) :Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +36,7 @@ class _AppAddImageState extends State<AppAddImage> {
             });
           },
           child: hadSelectImage
-              ? Stack(
+              ? const Stack(
                   children: [
                     AppImage(image: "image1.jpg",height: 100,fit: BoxFit.cover,),
                     Positioned(

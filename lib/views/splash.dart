@@ -17,7 +17,7 @@ class _SplashViewState extends State<SplashView> {
       body: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(50),
         child: Container(
-          margin: EdgeInsetsGeometry.all(35),
+          margin: const EdgeInsetsGeometry.all(35),
           alignment: AlignmentGeometry.center,
           decoration: BoxDecoration(
             color: Theme.of(
