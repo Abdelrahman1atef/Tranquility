@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tranquility/views/home/view/view.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:tranquility/views/splash.dart';
 
 void main() {
   runApp(
-    DevicePreview(enabled: true, builder: (context) => const Tranquility(),),
+    DevicePreview(enabled: false, builder: (context) => const Tranquility(),),
   );
 }
 
@@ -14,7 +14,7 @@ class Tranquility extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const MainView(),
+      home: const SplashView(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         drawerTheme: DrawerThemeData(

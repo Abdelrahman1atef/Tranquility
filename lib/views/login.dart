@@ -75,7 +75,7 @@ class LoginView extends StatelessWidget {
                         AppButton(
                           onPressed: () {},
                           isChildIcon: true,
-                          padding: const EdgeInsetsGeometry.symmetric(vertical: 18),
+                          padding: const EdgeInsetsDirectional.symmetric(vertical: 18),
                           color: Theme.of(context).colorScheme.surface,
                           shape: RoundedSuperellipseBorder(
                             borderRadius: BorderRadiusGeometry.circular(8),
@@ -93,7 +93,7 @@ class LoginView extends StatelessWidget {
                               ),
                               (route) => false,
                             ),
-                            padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
+                            padding: const EdgeInsetsDirectional.symmetric(vertical: 20),
                             shape: ContinuousRectangleBorder(
                               borderRadius: BorderRadiusGeometry.circular(12),
                             ),

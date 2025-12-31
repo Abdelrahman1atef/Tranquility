@@ -21,19 +21,19 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final bool haveTitle, haveSearchBar;
   final bool? haveAction, centerTitle;
-   final String? title;
+  final String? title;
   final bool? haveDrawer;
 
   @override
   Size get preferredSize => Size.fromHeight(
     kToolbarHeight + (haveSearchBar && haveTitle ? kToolbarHeight : 0),
   );
+
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -72,33 +72,57 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         onTap: () {
                           showCupertinoDialog(
                             context: context,
-                            builder: (context) => AlertDialog(
-
-                              title: AppText("Edit Title"),
-                              content: SizedBox(
-                                  height: 70,
-                                  child: AppInputText(
-                                    padding: EdgeInsetsGeometry.symmetric(vertical: 25),
-                                  )),
-                              actions: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: AppButton(
-                                        //todo add update of title if edit
-                                        onPressed: () {
-                                          setState(() {
-                                          // widget.title = "koko";
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                        padding: EdgeInsetsGeometry.symmetric(vertical: 19),
-                                        text: "Save",
+                            builder: (context) => Material(
+                              child: Dialog(
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 30),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsetsGeometry.symmetric(
+                                          vertical: 35,
+                                        ),
+                                        child: AppText(
+                                          "Edit Title",
+                                          textAlign: TextAlign.start,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      const AppInputText(
+                                        padding: EdgeInsetsGeometry.symmetric(
+                                          vertical: 25,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: AppButton(
+                                              //todo add update of title if edit
+                                              onPressed: () {
+                                                setState(() {
+                                                  // widget.title = "koko";
+                                                });
+                                                Navigator.pop(context);
+                                              },
+                                              padding:
+                                                  const EdgeInsetsDirectional.symmetric(
+                                                    vertical: 20,
+                                                  ),
+                                              margin:
+                                                  const EdgeInsetsDirectional.only(
+                                                    top: 20,
+                                                    bottom: 40,
+                                                  ),
+                                              text: "Save",
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ),
                           );
                         },

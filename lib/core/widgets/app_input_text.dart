@@ -17,20 +17,22 @@ class AppInputText extends StatefulWidget {
     this.borderRadius,
     this.fillColor,
     this.borderWidth,
-    this.textInputType, this.maxLines, this.borderColor,
+    this.textInputType,
+    this.maxLines=1,
+    this.borderColor,
   });
 
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
   final EdgeInsetsGeometry? padding;
   final TextInputType? textInputType;
-  final Color? fillColor,borderColor;
+  final Color? fillColor, borderColor;
   final bool isPasswordField;
   final bool? haveTitle;
-  final int? maxLines;
-  final double? borderRadius,borderWidth;
+  final int maxLines;
+  final double? borderRadius, borderWidth;
   final String obscuringCharacter;
-  final String? title,labelText,hintText;
+  final String? title, labelText, hintText;
 
   @override
   State<AppInputText> createState() => _CustomTextFormFieldState();
@@ -71,7 +73,8 @@ class _CustomTextFormFieldState extends State<AppInputText> {
               widget.borderRadius ?? borderRadius,
             ),
             borderSide: BorderSide(
-              color: widget.borderColor??Theme.of(context).colorScheme.outline,
+              color:
+                  widget.borderColor ?? Theme.of(context).colorScheme.outline,
               width: widget.borderWidth ?? borderWidth,
             ),
           ),
@@ -81,7 +84,8 @@ class _CustomTextFormFieldState extends State<AppInputText> {
               widget.borderRadius ?? borderRadius,
             ),
             borderSide: BorderSide(
-              color: widget.borderColor??Theme.of(context).colorScheme.outline,
+              color:
+                  widget.borderColor ?? Theme.of(context).colorScheme.outline,
               width: widget.borderWidth ?? borderWidth,
             ),
           ),

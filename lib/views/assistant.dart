@@ -59,7 +59,7 @@ class AssistantView extends StatelessWidget {
                       child: AppButton(
                         onPressed: () {},
                         text: "Start Chat",
-                        padding: const EdgeInsetsGeometry.symmetric(vertical: 16),
+                        padding: const EdgeInsetsDirectional.symmetric(vertical: 16),
                       ),
                     ),
                   ],

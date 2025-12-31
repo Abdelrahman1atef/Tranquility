@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
+import 'package:tranquility/views/about_us.dart';
 import 'package:tranquility/views/assistant.dart';
 import 'package:tranquility/views/home/pages/chats.dart';
 import 'package:tranquility/views/home/pages/profile.dart';
@@ -9,6 +10,7 @@ import 'package:tranquility/views/home/pages/quotes.dart';
 
 import '../../../core/widgets/app_Image.dart';
 import '../../../core/widgets/app_bar.dart';
+import '../../suggestions.dart';
 
 part 'drawer.dart';
 
@@ -23,7 +25,7 @@ class _MainViewState extends State<MainView> {
   final screens = [
     _MainViewItem(widget: const ChatsPage(), title: "Chats"),
     _MainViewItem(widget: const QuotesPage(), title: "Quotes"),
-    _MainViewItem(widget: const ProfilePage(), title: "Profile"),
+    _MainViewItem(widget: const ProfilePage(), title: "Edit Profile"),
   ];
   int currentScreen = 0;
   late String title;
@@ -40,10 +42,9 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       drawer: DrawerTheme(data: theme.drawerTheme, child: const AppDrawer()),
       floatingActionButton: AppButton(
-        //todo add nav to assistant page
-        onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => AssistantView(),)),
+        onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => const AssistantView(),)),
         isChildIcon: true,
-        padding: const EdgeInsetsGeometry.all(10),
+        padding: const EdgeInsetsDirectional.all(10),
         icon: const AppImage(image: "assistent_white.svg",),
       ),
       appBar: CustomAppBar(
@@ -52,9 +53,12 @@ class _MainViewState extends State<MainView> {
         centerTitle: false,
         title: title,
       ),
-      body: IndexedStack(
-        index: currentScreen,
-        children: screens.map((e) => e.widget).toList(),
+      body: Scaffold(
+        backgroundColor: theme.scaffoldBackgroundColor,
+        body: IndexedStack(
+          index: currentScreen,
+          children: screens.map((e) => e.widget).toList(),
+        ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: theme.primaryColor),

@@ -12,7 +12,7 @@ class AppButton extends StatelessWidget {
     this.borderRadius,
     this.padding,
     this.isGradientColored,
-    this.shape, this.text,
+    this.shape, this.text, this.margin,
   });
 
   final void Function() onPressed;
@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
   final Color? color;
   final bool? isChildIcon;
   final double? borderRadius;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsDirectional? margin,padding;
   final bool? isGradientColored;
   final OutlinedBorder? shape;
   final String? text;
@@ -31,7 +31,7 @@ class AppButton extends StatelessWidget {
     return Container(
       height: isChildIcon?? false?60:null,
       width: isChildIcon?? false?60:null,
-      padding: padding??const EdgeInsetsGeometry.all(0),
+      margin: margin?? const EdgeInsetsDirectional.all(0),
       decoration:
            BoxDecoration(
         color: isGradientColored ?? false
@@ -48,8 +48,8 @@ class AppButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          backgroundColor:WidgetStatePropertyAll(Colors.transparent) ,
-          padding: WidgetStatePropertyAll(EdgeInsetsDirectional.all(0)),
+          backgroundColor:const WidgetStatePropertyAll(Colors.transparent) ,
+          padding: WidgetStatePropertyAll(padding??const EdgeInsetsDirectional.all(0)),
           elevation: const WidgetStatePropertyAll(0),
           alignment: AlignmentGeometry.center,
           shape: WidgetStatePropertyAll(

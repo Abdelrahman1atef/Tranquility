@@ -64,7 +64,6 @@ class AppImage extends StatelessWidget {
       return const Placeholder();
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return showImage(image);

@@ -8,10 +8,15 @@ import '../core/widgets/app_input_text.dart';
 import '../core/widgets/app_text.dart';
 
 class ChangePasswordView extends StatelessWidget {
-  const ChangePasswordView({super.key});
-
+  const ChangePasswordView({super.key,  this.editPassword=false});
+  final bool editPassword;
   @override
   Widget build(BuildContext context) {
+    final String title = editPassword ? "Change Your Password" : "Create New Password";
+    final String oldPassword = editPassword ? "Old Password" : "";
+    final String password = editPassword ? "New Password" : "Password";
+    final String confirmPassword = editPassword ? "Confirm New Password" : "Confirm Password";
+    final String buttonText = editPassword ? "Change Password" : "Confirm";
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: const CustomAppBar(haveTitle: false, haveSearchBar: false),
@@ -26,22 +31,29 @@ class ChangePasswordView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText(
-                    "Create New Password",
+                    title,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  AppText(
-                    "create your new password to log in !",
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                       fontSize: 18,
-                      fontVariations: [
-                        const FontVariation('wght', 500),
-                      ]
-                        ),
+                  Visibility(
+                    visible: !editPassword,
+                    child: AppText(
+                      "create your new password to log in !",
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                         fontSize: 18,
+                        fontVariations: [
+                          const FontVariation('wght', 500),
+                        ]
+                          ),
+                    ),
                   ),
                   const SizedBox(height: 33),
-                  const AppInputText(hintText: "Password",isPasswordField: true,),
+                  Visibility(
+                      visible: editPassword,
+                      child: AppInputText(hintText: oldPassword,isPasswordField: true,)),
                   const SizedBox(height: 16),
-                  const AppInputText(hintText: "Confirm Password",isPasswordField: true,),
+                   AppInputText(hintText: password,isPasswordField: true,),
+                  const SizedBox(height: 16),
+                   AppInputText(hintText: confirmPassword,isPasswordField: true,),
                   const SizedBox(height: 33),
                   Row(
                     children: [
@@ -51,7 +63,8 @@ class ChangePasswordView extends StatelessWidget {
                             context,
                             MaterialPageRoute(builder: (context) => const LoginView()),
                           ),
-                          text: "Confirm",
+                          padding:const EdgeInsetsDirectional.symmetric(vertical: 20),
+                          text: buttonText,
                         ),
                       ),
                     ],

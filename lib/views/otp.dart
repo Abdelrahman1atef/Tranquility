@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
+import 'package:tranquility/views/login.dart';
 
 import '../core/widgets/app_Image.dart';
 import '../core/widgets/app_bar.dart';
 import '../core/widgets/app_otp.dart';
 import 'change_password.dart';
-import 'home/view/view.dart';
 
 class OtpView extends StatelessWidget {
   const OtpView({super.key, required this.isForgetPassword});
@@ -53,7 +53,7 @@ class OtpView extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => isForgetPassword
                                   ? const ChangePasswordView()
-                                  : const MainView(),
+                                  : const LoginView(),
                             ),
                           ),
                           text: "Verify",

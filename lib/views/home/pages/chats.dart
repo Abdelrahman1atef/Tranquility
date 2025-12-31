@@ -14,8 +14,7 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      body: chats.isEmpty
+    return  chats.isEmpty
           ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -88,8 +87,8 @@ class _ChatsPageState extends State<ChatsPage> {
                   ],
                 );
               },
-            ),
-    );
+            );
+
   }
 }
 
