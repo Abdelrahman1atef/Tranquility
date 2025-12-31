@@ -15,12 +15,12 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final messages = [
-      ChatBubble(text: "Hello How are you?", isSender: true),
-      ChatBubble(
+      const ChatBubble(text: "Hello How are you?", isSender: true),
+      const ChatBubble(
           text: "Hello! I'm just a computer program, so I don't have feelings in the same way humans do, but I'm here and ready to assist you. How can I help you today?", isSender: false),
-      ChatBubble(text: "I feel upset", isSender: true),
-      ChatBubble(text: "I'm sorry to hear that you're feeling upset. If you'd like, you can share what's on your mind, and I'm here to listen and offer support or guidance if you need it. Remember, it's okay to feel upset sometimes, and it's important to take care of yourself.", isSender: false),
-      ChatBubble(text: "I'm sorry to hear that you're feeling upset. If you'd like, you can share what's on your mind, and I'm here to listen and offer support or guidance if you need it. Remember, it's okay to feel upset sometimes, and it's important to take care of yourself.", isSender: false),
+      const ChatBubble(text: "I feel upset", isSender: true),
+      const ChatBubble(text: "I'm sorry to hear that you're feeling upset. If you'd like, you can share what's on your mind, and I'm here to listen and offer support or guidance if you need it. Remember, it's okay to feel upset sometimes, and it's important to take care of yourself.", isSender: false),
+      const ChatBubble(text: "I'm sorry to hear that you're feeling upset. If you'd like, you can share what's on your mind, and I'm here to listen and offer support or guidance if you need it. Remember, it's okay to feel upset sometimes, and it's important to take care of yourself.", isSender: false),
     ];
     final theme = Theme.of(context);
     return Scaffold(
@@ -96,7 +96,7 @@ class ChatBubble extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (!isSender)
-              AppImage(image: "profile.png",height: 36,),
+              const AppImage(image: "profile.png",height: 36,),
             SizedBox(width: isSender ? 0 : 7),
             Container(
               constraints: const BoxConstraints(maxWidth: 250),
