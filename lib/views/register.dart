@@ -3,7 +3,7 @@ import 'package:tranquility/core/widgets/app_add_image.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_input_text.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
-import 'package:tranquility/views/login.dart';
+import 'package:tranquility/views/login/view.dart';
 import 'package:tranquility/views/otp.dart';
 
 
@@ -22,6 +22,8 @@ class _RegisterViewState extends State<RegisterView> {
   final _genderController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  String selectedImage = "";
+
 
   @override
   void dispose() {
@@ -48,7 +50,7 @@ class _RegisterViewState extends State<RegisterView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-                const AppAddImage(),
+                 AppAddImage(onChange:(value) =>  selectedImage = value ,),
                 const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsetsGeometry.only(left: 24, right: 24,bottom: 50),

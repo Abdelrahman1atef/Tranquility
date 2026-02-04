@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tranquility/core/logic/helper_methods.dart';
 
 import 'app_Image.dart';
 import 'app_text.dart';
 
 class AppAddImage extends StatefulWidget {
-  const AppAddImage({super.key, this.shapeIsCircle = true, this.imagePath});
-
-  final bool shapeIsCircle;
-  final String? imagePath;
-
+  const AppAddImage({super.key, this.image, required this.onChange});
+  final String? image;
+  final ValueChanged<String> onChange;
   @override
   State<AppAddImage> createState() => _AppAddImageState();
 }
 
 class _AppAddImageState extends State<AppAddImage> {
   String imagePath = "";
+
   @override
   void initState() {
-    imagePath=widget.imagePath??"";
+    imagePath = widget.image ?? "";
     super.initState();
   }
+
   Future<void> pickFromCamera() async {
     final picker = ImagePicker();
     final status = await Permission.camera.request();
@@ -32,7 +33,13 @@ class _AppAddImageState extends State<AppAddImage> {
     }
 
     final XFile? photo = await picker.pickImage(source: ImageSource.camera);
-    if (photo != null) setState(() => imagePath = photo.path);
+    if (photo != null) {
+      if (!mounted) return;
+      Navigator.pop(context!);
+      imagePath = photo.path;
+      setState(() {} );
+      widget.onChange(imagePath);
+    }
   }
 
   Future<void> pickFromGallery() async {
@@ -45,41 +52,34 @@ class _AppAddImageState extends State<AppAddImage> {
     }
 
     final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
-    if (photo != null) setState(() => imagePath = photo.path);
+    if (photo != null) {
+      if (!mounted) return;
+      Navigator.pop(context!);
+      imagePath = photo.path;
+      setState(() {} );
+      widget.onChange(imagePath);
+    }
   }
 
   void showPickerSheet() {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => _PickerSheet(
-        onCameraTap: pickFromCamera,
-        onGalleryTap: pickFromGallery,
-      ),
+    showModalBottomSheet<void>(
+      context: context!,
+      builder: (_) => _PickerSheet(onCameraTap: pickFromCamera, onGalleryTap: pickFromGallery),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.shapeIsCircle
-        ? _CirclePicker(
+    return _CirclePicker(
       imagePath: imagePath,
       onPickTap: showPickerSheet,
       onDeleteTap: () => setState(() => imagePath = ""),
-    )
-        : _RectanglePicker(
-      hasImage: imagePath.isNotEmpty,
-      onTap: showPickerSheet,
-      child: imagePath.isNotEmpty
-          ? AppImage(image: imagePath, height: 100, fit: BoxFit.cover)
-          : null,
     );
   }
 }
+
 class _PickerSheet extends StatelessWidget {
-  const _PickerSheet({
-    required this.onCameraTap,
-    required this.onGalleryTap,
-  });
+  const _PickerSheet({required this.onCameraTap, required this.onGalleryTap});
 
   final VoidCallback onCameraTap;
   final VoidCallback onGalleryTap;
@@ -94,27 +94,29 @@ class _PickerSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText("Pick Image From",
-              style: theme.textTheme.titleMedium),
+          AppText("Pick Image From", style: theme.textTheme.titleMedium),
           const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              InkWell(onTap: onCameraTap, child: const AppImage(image: "camera.svg")),
-              InkWell(onTap: onGalleryTap, child: const AppImage(image: "gallary.svg")),
+              InkWell(
+                onTap: onCameraTap,
+                child: const AppImage(image: "camera.svg"),
+              ),
+              InkWell(
+                onTap: onGalleryTap,
+                child: const AppImage(image: "gallary.svg"),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 }
+
 class _CirclePicker extends StatelessWidget {
-  const _CirclePicker({
-    required this.imagePath,
-    required this.onPickTap,
-    required this.onDeleteTap,
-  });
+  const _CirclePicker({required this.imagePath, required this.onPickTap, required this.onDeleteTap});
 
   final String imagePath;
   final VoidCallback onPickTap;
@@ -132,96 +134,28 @@ class _CirclePicker extends StatelessWidget {
           imagePath.isEmpty
               ? const AppImage(image: "pick_image.svg")
               : ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: AppImage(
-              image: imagePath,
-              height: 200,
-              width: 200,
-              fit: BoxFit.cover,
-            ),
-          ),
+                  borderRadius: BorderRadius.circular(100),
+                  child: AppImage(image: imagePath, height: 200, width: 200, fit: BoxFit.cover),
+                ),
 
           Positioned(
             bottom: 0,
             right: 0,
-            child: CircleAvatar(
-              backgroundColor: theme.primaryColor,
-              child: AppImage(
-                image: imagePath.isEmpty ? "add.svg" : "edit.svg",
-              ),
-            ),
-          ),
-
-          if (imagePath.isNotEmpty)
-            Positioned(
-              left: 4,
-              top: 4,
-              child: GestureDetector(
-                onTap: onDeleteTap,
-                child: CircleAvatar(
-                  backgroundColor:
-                  theme.primaryColor.withValues(alpha: 0.25),
-                  child: const AppImage(image: "delete_chat.svg"),
+            child: GestureDetector(
+              onTap: imagePath.isEmpty ? null : onDeleteTap,
+              child: CircleAvatar(
+                backgroundColor: imagePath.isNotEmpty ?color.errorContainer:theme.primaryColor,
+                radius: 30,
+                child: AppImage(
+                  image: imagePath.isEmpty ? "add.svg" : "delete_chat.svg",
+                  width: 30,
+                  svgColorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ),
             ),
+          ),
         ],
       ),
-    );
-  }
-}
-class _RectanglePicker extends StatelessWidget {
-  const _RectanglePicker({
-    required this.hasImage,
-    required this.onTap,
-    this.child,
-  });
-
-  final bool hasImage;
-  final VoidCallback onTap;
-  final Widget? child;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppText("الصورة الشخصية", style: theme.textTheme.titleSmall),
-        const SizedBox(height: 8),
-        InkWell(
-          onTap: onTap,
-          child: hasImage
-              ? Stack(
-            children: [
-              child!,
-              const Positioned(
-                top: 10,
-                left: 10,
-                child: AppImage(image: "camera.svg", width: 24),
-              ),
-            ],
-          )
-              : Container(
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(18),
-              child: Column(
-                children: [
-                  AppImage(image: "camera.svg"),
-                  SizedBox(height: 10),
-                  AppText("الملفات المسموح بيها : JPEG , PNG"),
-                  AppText("الحد الاقصي : 5MB"),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

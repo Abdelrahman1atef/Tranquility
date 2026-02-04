@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tranquility/core/logic/helper_methods.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
 import 'package:tranquility/views/about_us.dart';
@@ -14,20 +15,20 @@ import '../../suggestions.dart';
 
 part 'drawer.dart';
 
-class MainView extends StatefulWidget {
-  const MainView({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<MainView> createState() => _MainViewState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _MainViewState extends State<MainView> {
+class _HomeViewState extends State<HomeView> {
   final screens = [
     _MainViewItem(widget: const ChatsPage(), title: "Chats"),
     _MainViewItem(widget: const QuotesPage(), title: "Quotes"),
     _MainViewItem(widget: const ProfilePage(), title: "Edit Profile"),
   ];
-  int currentScreen = 0;
+  int currentScreen = 2;
   late String title;
 
   @override
@@ -42,7 +43,7 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       drawer: DrawerTheme(data: theme.drawerTheme, child: const AppDrawer()),
       floatingActionButton: AppButton(
-        onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => const AssistantView(),)),
+        onPressed: () => goto(const AssistantView()),
         isChildIcon: true,
         padding: const EdgeInsetsDirectional.all(10),
         icon: const AppImage(image: "assistent_white.svg",),

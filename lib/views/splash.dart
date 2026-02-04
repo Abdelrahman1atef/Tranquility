@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
-import 'package:tranquility/views/login.dart';
+import 'package:tranquility/views/login/view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});

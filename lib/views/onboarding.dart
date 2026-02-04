@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_Image.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
 
-import 'login.dart';
+import 'login/view.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tranquility/core/logic/cash_helper.dart';
+import 'package:tranquility/core/logic/helper_methods.dart';
 import 'package:tranquility/core/widgets/app_add_image.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_input_text.dart';
@@ -7,6 +9,7 @@ import '../../../core/widgets/app_Image.dart';
 import '../../../core/widgets/app_text.dart';
 import '../../../core/widgets/custom_dropdownmenu.dart';
 import '../../change_password.dart';
+import '../../login/model.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,25 +20,26 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _usernameController = TextEditingController();
-  final _phoneNumberController = TextEditingController();
+  final _emailController = TextEditingController();
   final _ageController = TextEditingController();
   String selectedImage = "";
   String selectedGender = "";
 
   @override
   void initState() {
-    _usernameController.text = "Sara";
-    _phoneNumberController.text = "01022322742";
-    _ageController.text = "22";
-    selectedImage = "profile.png";
-    selectedGender = "F";
+    Data? data=CashHelper.getUserData();
+    _usernameController.text = data?.name??"";
+    _emailController.text = data?.email??"";
+    _ageController.text = data?.age.toString()??"";
+    selectedImage = data?.imageUrl??"";
+    selectedGender = data?.gender??"";
     super.initState();
   }
 
   @override
   void dispose() {
     _usernameController.dispose();
-    _phoneNumberController.dispose();
+    _emailController.dispose();
     _ageController.dispose();
     super.dispose();
   }
@@ -50,11 +54,11 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 40),
-          AppAddImage(imagePath: selectedImage),
+          AppAddImage(image: selectedImage,onChange: (value) =>  selectedImage = value,),
           const SizedBox(height: 40),
           AppInputText(controller: _usernameController),
           const SizedBox(height: 16),
-          AppInputText(controller: _phoneNumberController),
+          AppInputText(controller: _emailController),
           const SizedBox(height: 16),
           Row(
             spacing: 16,
@@ -67,11 +71,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: const AppImage(image: "arrow_down.svg"),
                   value: selectedGender,
                   onChanged: (value) {
-                    print(value);
+                    setState(() {
+                      selectedGender = value!;
+                    });
                   },
                   items: const [
-                    DropdownMenuItem(value: "M", child: Text('Male')),
-                    DropdownMenuItem(value: "F", child: Text('Female')),
+                    DropdownMenuItem(value: "Male", child: Text('Male')),
+                    DropdownMenuItem(value: "Female", child: Text('Female')),
                   ],
                 ),
               ),
@@ -91,13 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 20),
           InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    const ChangePasswordView(editPassword: true),
-              ),
-            ),
+            onTap: () => goto(const ChangePasswordView(editPassword: true)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

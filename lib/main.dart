@@ -1,8 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:tranquility/views/splash.dart';
+import 'package:tranquility/core/logic/cash_helper.dart';
+import 'package:tranquility/views/home/view/view.dart';
+import 'package:tranquility/views/login/view.dart';
 
-void main() {
+import 'core/logic/helper_methods.dart';
+import 'firebase_options.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  CashHelper.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  initFcm();
   runApp(
     DevicePreview(enabled: false, builder: (context) => const Tranquility(),),
   );
@@ -14,7 +26,8 @@ class Tranquility extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const SplashView(),
+      navigatorKey: navKey,
+      home: const HomeView(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         drawerTheme: DrawerThemeData(
@@ -38,79 +51,80 @@ class Tranquility extends StatelessWidget {
           surface: const Color(0xFF284243).withValues(alpha: 0.05),
           error: const Color(0xFFF60000),
           errorContainer: const Color(0xFFFF3A3A),
+        ),textTheme: const TextTheme(
+        headlineLarge: TextStyle(
+          fontFamily: "MysteryQuest",
+          color: Color(0xFF284243),
+          fontSize: 50,
         ),
-        textTheme: const TextTheme(
-          headlineLarge: TextStyle(
-            fontFamily: "MysteryQuest",
-            color: Color(0xFF284243),
-            fontSize: 50,
-          ),
-          headlineMedium: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF284243),
-            fontVariations: [FontVariation("wght", 700)],
-            fontSize: 18,
-          ),
-          titleLarge: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF284243),
-            fontVariations: [FontVariation("wght", 700)],
-            fontSize: 32,
-          ),
-          titleMedium: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF000000),
-            fontVariations: [FontVariation("wght", 500)],
-            fontSize: 24,
-          ),
-          bodyLarge: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFFFFFFFF),
-            fontVariations: [FontVariation("wght", 700)],
-            fontSize: 20,
-          ),
-          bodyMedium: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFFFFFFFF),
-            fontVariations: [FontVariation("wght", 500)],
-            fontSize: 20,
-          ),
-          displayLarge: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF284243),
-            fontVariations: [FontVariation("wght", 500)],
-            fontSize: 40,
-          ),displayMedium: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF284243),
-            fontVariations: [FontVariation("wght", 500)],
-            fontSize: 20,
-          ),
-          displaySmall: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFFFFFFFF),
-            fontVariations: [FontVariation("wght", 400)],
-            fontSize: 20,
-          ),
-          labelLarge: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF000000),
-            fontVariations: [FontVariation("wght", 400)],
-            fontSize: 16,
-          ),
-          labelMedium: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF284243),
-            fontVariations: [FontVariation("wght", 400)],
-            fontSize: 20,
-          ),
-          labelSmall: TextStyle(
-            fontFamily: "Inter",
-            color: Color(0xFF000000),
-            fontVariations: [FontVariation("wght", 400)],
-            fontSize: 18,
-          ),
+        headlineMedium: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFF284243),
+          fontVariations: [FontVariation("wght", 700)],
+          fontSize: 18,
         ),
+        titleLarge: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFF284243),
+          fontVariations: [FontVariation("wght", 700)],
+          fontSize: 32,
+        ),
+        titleMedium: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFF000000),
+          fontVariations: [FontVariation("wght", 500)],
+          fontSize: 24,
+        ),
+        bodyLarge: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFFFFFFFF),
+          fontVariations: [FontVariation("wght", 700)],
+          fontSize: 20,
+        ),
+        bodyMedium: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFFFFFFFF),
+          fontVariations: [FontVariation("wght", 500)],
+          fontSize: 20,
+        ),
+        displayLarge: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFF284243),
+          fontVariations: [FontVariation("wght", 500)],
+          fontSize: 40,
+        ),displayMedium: TextStyle(
+        fontFamily: "Inter",
+        color: Color(0xFF284243),
+        fontVariations: [FontVariation("wght", 500)],
+        fontSize: 20,
+      ),
+        displaySmall: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFFFFFFFF),
+          fontVariations: [FontVariation("wght", 400)],
+          fontSize: 20,
+        ),
+        labelLarge: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFF000000),
+          fontVariations: [FontVariation("wght", 400)],
+          fontSize: 16,
+        ),
+        labelMedium: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFF284243),
+          fontVariations: [FontVariation("wght", 400)],
+          fontSize: 20,
+        ),
+        labelSmall: TextStyle(
+          fontFamily: "Inter",
+          color: Color(0xFF000000),
+          fontVariations: [FontVariation("wght", 400)],
+          fontSize: 18,
+        ),
+      ),
+
+
       ),
     );
   }

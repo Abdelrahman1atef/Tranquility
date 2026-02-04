@@ -12,17 +12,18 @@ class AppButton extends StatelessWidget {
     this.borderRadius,
     this.padding,
     this.isGradientColored,
-    this.shape, this.text, this.margin,
+    this.shape, this.text, this.margin, this.widget, this.textStyle,
   });
 
-  final void Function() onPressed;
-  final Widget? icon;
+  final VoidCallback? onPressed;
+  final Widget? icon,widget;
   final Color? color;
   final bool? isChildIcon;
   final double? borderRadius;
   final EdgeInsetsDirectional? margin,padding;
   final bool? isGradientColored;
   final OutlinedBorder? shape;
+  final TextStyle? textStyle;
   final String? text;
 
 
@@ -62,7 +63,12 @@ class AppButton extends StatelessWidget {
             ),
           ),
         ),
-        child:isChildIcon??false?icon:AppText(text??"",style: Theme.of(context).textTheme.bodyMedium,),
+        child: isChildIcon ?? false
+            ? icon
+            :text!=null? AppText(
+          text ?? "",
+          style: Theme.of(context).textTheme.bodyMedium?.merge(textStyle),
+        ):widget,
       ),
     );
   }
