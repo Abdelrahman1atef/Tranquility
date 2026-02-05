@@ -7,9 +7,9 @@ import 'package:tranquility/core/network/dio_helper.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_input_text.dart';
 import 'package:tranquility/views/forget_password.dart';
-import 'package:tranquility/views/home/view/view.dart';
+import 'package:tranquility/views/home/view.dart';
 import 'package:tranquility/views/login/model.dart';
-import 'package:tranquility/views/register.dart';
+import 'package:tranquility/views/register/view.dart';
 
 import '../../core/logic/cash_helper.dart';
 import '../../core/widgets/app_Image.dart';
@@ -35,8 +35,8 @@ class _LoginViewState extends State<LoginView> {
     if (response.isSuccess) {
       _state = DataStates.loaded;
       final loginResponse = LoginResponse.fromJson(response.data);
-      CashHelper.setUserDate(loginResponse);
-      goto(const HomeView());
+      await CashHelper.setUserDate(loginResponse);
+      goto(const HomeView(),canPop: false);
     } else {
       _state = DataStates.error;
       showMsg(response.msg,isError: true);
@@ -135,7 +135,7 @@ class _LoginViewState extends State<LoginView> {
                                 email: _emailController.text.trim(),
                                 password: _passwordController.text,
                                 deviceToken: CashHelper.getFcmToken(),
-                                deviceType: Platform.isAndroid ? 'android' : 'ios',
+                                deviceType: getPlatform(),
                               );
                               _login(data: data);
                             },

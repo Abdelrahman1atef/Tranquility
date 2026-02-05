@@ -6,14 +6,8 @@ class DrawerItem {
   final String title;
   final bool haveSwitch;
   final Color fillColor;
-  
 
-  DrawerItem({
-    required this.title,
-    required this.icon,
-    this.haveSwitch = false,
-    required this.fillColor,  this.screen,
-  });
+  DrawerItem({required this.title, required this.icon, this.haveSwitch = false, required this.fillColor, this.screen});
 }
 
 final drawerItems = [
@@ -21,7 +15,7 @@ final drawerItems = [
     title: "About Us",
     icon: const AppImage(image: "us.svg"),
     fillColor: const Color(0xFF284243).withValues(alpha: 0.05),
-    screen: const AboutUsView()
+    screen: const AboutUsView(),
   ),
   DrawerItem(
     title: "Rate Our App",
@@ -32,7 +26,7 @@ final drawerItems = [
     title: "Suggestions",
     icon: const AppImage(image: "suggestion.svg"),
     fillColor: const Color(0xFF284243).withValues(alpha: 0.05),
-    screen: const SuggestionsView()
+    screen: const SuggestionsView(),
   ),
   DrawerItem(
     title: "Enable Easy Login",
@@ -44,6 +38,7 @@ final drawerItems = [
     title: "Logout",
     icon: const AppImage(image: "logout.svg"),
     fillColor: const Color(0xFFFF3A3A).withValues(alpha: 0.05),
+    screen: const LoginView(),
   ),
 ];
 
@@ -61,14 +56,21 @@ class _DrawerItemsState extends State<DrawerItems> {
   bool isSwitched = false;
 
   @override
+  void initState() {
+    isSwitched = CashHelper.getUserData()!.isEasyLoginEnabled;
+    super.initState();
+  }
+  //todo enable easy login
+  // static toggleAction(){
+  //
+  // }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsetsGeometry.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadiusGeometry.circular(8),
-        color: widget.item.fillColor,
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadiusGeometry.circular(8), color: widget.item.fillColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -81,9 +83,7 @@ class _DrawerItemsState extends State<DrawerItems> {
                 maxLines: 1,
                 style: widget.index != drawerItems.length - 1
                     ? theme.textTheme.labelLarge
-                    : theme.textTheme.labelLarge?.copyWith(
-                  color: theme.colorScheme.error,
-                ),
+                    : theme.textTheme.labelLarge?.copyWith(color: theme.colorScheme.error),
               ),
             ],
           ),
@@ -91,7 +91,7 @@ class _DrawerItemsState extends State<DrawerItems> {
             CupertinoSwitch(
               trackOutlineColor: const WidgetStatePropertyAll(null),
               trackOutlineWidth: const WidgetStatePropertyAll(0),
-              activeTrackColor:const Color(0xFF2F65F0) ,
+              activeTrackColor: const Color(0xFF2F65F0),
               inactiveTrackColor: const Color(0xFFC0C0C0),
               value: isSwitched,
               onChanged: (value) => setState(() {
@@ -106,6 +106,9 @@ class _DrawerItemsState extends State<DrawerItems> {
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
+  Future<void> _toggleEasyLogin() async {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,17 +117,11 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsetsGeometry.only(
-              top: kToolbarHeight,
-              bottom: kToolbarHeight / 2,
-            ),
+            padding: const EdgeInsetsGeometry.only(top: kToolbarHeight, bottom: kToolbarHeight / 2),
 
             decoration: BoxDecoration(
               color: theme.primaryColor,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(25),
-                bottomRight: Radius.circular(25),
-              ),
+              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -155,16 +152,34 @@ class AppDrawer extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemCount: drawerItems.length,
-              padding: const EdgeInsetsGeometry.symmetric(
-                horizontal: 16,
-                vertical: 24,
-              ),
+              padding: const EdgeInsetsGeometry.symmetric(horizontal: 16, vertical: 24),
               separatorBuilder: (context, index) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
                 final item = drawerItems[index];
                 return InkWell(
-                    onTap: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => item.screen??const AboutUsView(),)),
-                    child: DrawerItems(item: item, index: index));
+                  onTap: () async{
+                    switch (item.title) {
+                      case "About Us":
+                        goto(const AboutUsView(), canPop: true);
+                        break;
+                      case "Suggestions":
+                        goto(const SuggestionsView(), canPop: true);
+                        break;
+                      case "Enable Easy Login":
+
+                        break;
+                      case "Logout":
+                        CashHelper.removeUserData();
+                        goto(const LoginView(), canPop: false);
+                        break;
+                      default:
+                        goto(const AboutUsView(), canPop: true);
+                        break;
+                    }
+                    // goto(item.screen ?? const AboutUsView(), canPop: item.screen == const LoginView() ? false : true);
+                  },
+                  child: DrawerItems(item: item, index: index),
+                );
               },
             ),
           ),
@@ -172,4 +187,5 @@ class AppDrawer extends StatelessWidget {
       ),
     );
   }
+
 }

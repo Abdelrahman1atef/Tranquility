@@ -20,6 +20,7 @@ class _AppAddImageState extends State<AppAddImage> {
   @override
   void initState() {
     imagePath = widget.image ?? "";
+
     super.initState();
   }
 
@@ -125,7 +126,6 @@ class _CirclePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return GestureDetector(
       onTap: onPickTap,
       child: Stack(

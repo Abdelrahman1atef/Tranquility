@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
 
-class CustomDropdownMenu extends StatefulWidget {
-  const CustomDropdownMenu({
+class AppDropMenu extends StatefulWidget {
+  const AppDropMenu({
     super.key,
     this.onChanged,
     required this.hintText,
@@ -18,10 +18,10 @@ class CustomDropdownMenu extends StatefulWidget {
   final List<DropdownMenuItem<String>> items ;
 
   @override
-  State<CustomDropdownMenu> createState() => _CustomDropdownMenuState();
+  State<AppDropMenu> createState() => _AppDropMenuState();
 }
 
-class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
+class _AppDropMenuState extends State<AppDropMenu> {
   double borderWidth=1;
   double borderRadius=8;
   @override

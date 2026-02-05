@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
 class LoginRequest {
-  final String email;
-  final String password;
-  final String deviceToken;
-  final String deviceType;
+ late final String email;
+ late final String password;
+ late final String deviceToken;
+ late final String deviceType;
 
   LoginRequest({
     required this.email,

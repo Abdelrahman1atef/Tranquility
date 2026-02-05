@@ -51,7 +51,10 @@ class DioHelper {
     try {
       final response = await _dio.post<dynamic>(endpoint, queryParameters: queryParameters, data: data);
       if (response.data == null || response.statusCode == 200) {
-        return CustomResponse(isSuccess: true, data: response.data);
+        if(response.data["message"]==null) {
+          return CustomResponse(isSuccess: true, data: response.data);
+        }
+        return CustomResponse(isSuccess: true, data: response.data,msg: response.data["message"]);
       }
       return CustomResponse(isSuccess: false, data: response.data,msg: response.data["message"]);
     } on DioException catch (ex) {

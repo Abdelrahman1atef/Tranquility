@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +26,7 @@ void showMsg(String? msg, {bool isError = false}) {
   if (msg == null) return;
   ScaffoldMessenger.of(context!).showSnackBar(
     SnackBar(
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(seconds: 2),
       backgroundColor: isError ? color.errorContainer :  color.primaryContainer,
       content: Text(
         msg,
@@ -47,5 +49,8 @@ Future<void> initFcm() async {
   if (token != null) {
     await CashHelper.setFcmToken(token);
   }
+}
+String getPlatform() {
+  return Platform.isAndroid ? 'android' : 'ios';
 }
 

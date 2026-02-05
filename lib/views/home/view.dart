@@ -6,12 +6,14 @@ import 'package:tranquility/core/widgets/app_text.dart';
 import 'package:tranquility/views/about_us.dart';
 import 'package:tranquility/views/assistant.dart';
 import 'package:tranquility/views/home/pages/chats.dart';
-import 'package:tranquility/views/home/pages/profile.dart';
 import 'package:tranquility/views/home/pages/quotes.dart';
+import 'package:tranquility/views/login/view.dart';
 
-import '../../../core/widgets/app_Image.dart';
-import '../../../core/widgets/app_bar.dart';
-import '../../suggestions.dart';
+import '../../core/logic/cash_helper.dart';
+import '../../core/widgets/app_Image.dart';
+import '../../core/widgets/app_bar.dart';
+import '../suggestions.dart';
+import 'pages/profile.dart';
 
 part 'drawer.dart';
 
@@ -28,7 +30,7 @@ class _HomeViewState extends State<HomeView> {
     _MainViewItem(widget: const QuotesPage(), title: "Quotes"),
     _MainViewItem(widget: const ProfilePage(), title: "Edit Profile"),
   ];
-  int currentScreen = 2;
+  int currentScreen = 0;
   late String title;
 
   @override

@@ -8,15 +8,15 @@ import '../core/widgets/app_input_text.dart';
 import '../core/widgets/app_text.dart';
 
 class ChangePasswordView extends StatelessWidget {
-  const ChangePasswordView({super.key,  this.editPassword=false});
-  final bool editPassword;
+  const ChangePasswordView({super.key,  this.changePassword=false});
+  final bool changePassword;
   @override
   Widget build(BuildContext context) {
-    final String title = editPassword ? "Change Your Password" : "Create New Password";
-    final String oldPassword = editPassword ? "Old Password" : "";
-    final String password = editPassword ? "New Password" : "Password";
-    final String confirmPassword = editPassword ? "Confirm New Password" : "Confirm Password";
-    final String buttonText = editPassword ? "Change Password" : "Confirm";
+    final String title = changePassword ? "Change Your Password" : "Create New Password";
+    final String oldPassword = changePassword ? "Old Password" : "";
+    final String password = changePassword ? "New Password" : "Password";
+    final String confirmPassword = changePassword ? "Confirm New Password" : "Confirm Password";
+    final String buttonText = changePassword ? "Change Password" : "Confirm";
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: const CustomAppBar(haveTitle: false, haveSearchBar: false),
@@ -35,7 +35,7 @@ class ChangePasswordView extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Visibility(
-                    visible: !editPassword,
+                    visible: !changePassword,
                     child: AppText(
                       "create your new password to log in !",
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -48,7 +48,7 @@ class ChangePasswordView extends StatelessWidget {
                   ),
                   const SizedBox(height: 33),
                   Visibility(
-                      visible: editPassword,
+                      visible: changePassword,
                       child: AppInputText(hintText: oldPassword,isPasswordField: true,)),
                   const SizedBox(height: 16),
                    AppInputText(hintText: password,isPasswordField: true,),

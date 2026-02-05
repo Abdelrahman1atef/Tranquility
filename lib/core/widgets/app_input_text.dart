@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_Image.dart';
 
@@ -18,7 +19,7 @@ class AppInputText extends StatefulWidget {
     this.borderWidth,
     this.textInputType,
     this.maxLines = 1,
-    this.borderColor,
+    this.borderColor,  this.enabled = true,
   });
 
   final TextEditingController? controller;
@@ -26,7 +27,7 @@ class AppInputText extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final TextInputType? textInputType;
   final Color? fillColor, borderColor;
-  final bool isPasswordField;
+  final bool isPasswordField, enabled;
   final int maxLines;
   final double? borderRadius, borderWidth;
   final String obscuringCharacter;
@@ -71,6 +72,19 @@ class _CustomTextFormFieldState extends State<AppInputText> {
           obscureText: widget.isPasswordField ? passwordIsHidden : false,
           obscuringCharacter: widget.obscuringCharacter,
           keyboardType: widget.textInputType,
+          enabled: widget.enabled,
+          inputFormatters: [
+            if (widget.textInputType == TextInputType.number) ...[
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(3),
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                if (newValue.text.length > 2) {
+                  return oldValue;
+                }
+                return newValue;
+              },)
+            ]
+          ],
           maxLines: widget.maxLines,
           decoration: InputDecoration(
             labelText: widget.labelText,
@@ -84,6 +98,7 @@ class _CustomTextFormFieldState extends State<AppInputText> {
             contentPadding: widget.padding ?? const EdgeInsetsGeometry.symmetric(vertical: 18, horizontal: 10),
             focusedBorder: _border(),
             enabledBorder: _border(),
+            disabledBorder: _border(),
             errorMaxLines: 2,
             errorStyle: TextTheme.of(
               context,

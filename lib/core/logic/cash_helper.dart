@@ -9,7 +9,15 @@ class CashHelper {
   }
 
   static Future<void> setData(String key, dynamic value) async {
-    await _pref.setString(key, value);
+    if (value is int) {
+      await _pref.setInt(key, value);
+    } else if (value is String) {
+      await _pref.setString(key, value);
+    }else if (value is bool) {
+      await _pref.setBool(key, value);
+    }else if (value is double) {
+      await _pref.setDouble(key, value);
+    }
   }
 
   static Future<void> setFirstTime() async {
