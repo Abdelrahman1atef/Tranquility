@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tranquility/core/logic/helper_methods.dart';
+import 'package:tranquility/core/network/dio_helper.dart';
 import 'package:tranquility/core/widgets/app_button.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
 import 'package:tranquility/views/about_us.dart';
@@ -12,6 +13,7 @@ import 'package:tranquility/views/login/view.dart';
 import '../../core/logic/cash_helper.dart';
 import '../../core/widgets/app_Image.dart';
 import '../../core/widgets/app_bar.dart';
+import '../login/model.dart';
 import '../suggestions.dart';
 import 'pages/profile.dart';
 
@@ -46,9 +48,11 @@ class _HomeViewState extends State<HomeView> {
       drawer: DrawerTheme(data: theme.drawerTheme, child: const AppDrawer()),
       floatingActionButton: AppButton(
         onPressed: () => goto(const AssistantView()),
-        isChildIcon: true,
+        width: 60,
+        height: 60,
+        borderRadius: 16,
         padding: const EdgeInsetsDirectional.all(10),
-        icon: const AppImage(image: "assistent_white.svg",),
+        widget: const AppImage(image: "assistent_white.svg",),
       ),
       appBar: CustomAppBar(
         haveTitle: true,
@@ -77,7 +81,6 @@ class _HomeViewState extends State<HomeView> {
             selectedLabelStyle: TextStyle(fontSize: 14),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
-            // selectedLabelStyle: Theme.of(context).textTheme.labelSmall,
           ),
           child: BottomNavigationBar(
             currentIndex: currentScreen,

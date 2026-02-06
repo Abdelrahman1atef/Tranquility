@@ -37,7 +37,10 @@ class CashHelper {
     return _pref.getString("token");
   }
 
-  static Future<void> setUserDate(LoginResponse response) async {
+  static Future<void> setEasyLoginEnabled(bool value) async {
+    await _pref.setBool("isEasyLoginEnabled", value);
+  }
+  static Future<void> setUserDate(LoginResponse response,Data data) async {
     Data data = response.data;
     await _pref.setString("token", data.token);
     await _pref.setInt("id", data.id);
@@ -88,6 +91,7 @@ class CashHelper {
     await _pref.remove("isVerified");
     await _pref.remove("isEasyLoginEnabled");
   }
+
 
 
 

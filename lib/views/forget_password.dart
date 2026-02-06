@@ -83,12 +83,14 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                     children: [
                       Expanded(
                         child: AppButton(
-                          onPressed: () async {
+                          onPressed: _state == DataStates.loading
+                              ?null: () async {
                             if (!_key.currentState!.validate()) return;
                             await _forgetPassword();
                           },
                           widget: _state == DataStates.loading
-                              ? const CircularProgressIndicator(color: Colors.white,)
+                              ? const CircularProgressIndicator(color: Colors.white,
+                            constraints: BoxConstraints(minWidth: 30, minHeight: 30),)
                               : AppText( "Forget Password",style: Theme.of(context).textTheme.bodyMedium),
                           padding: const EdgeInsetsDirectional.symmetric(vertical: 19),
                         ),

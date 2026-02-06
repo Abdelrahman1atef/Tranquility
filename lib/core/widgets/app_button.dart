@@ -8,67 +8,60 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.color,
-    this.isChildIcon,
+    this.isChildIcon = false,
     this.borderRadius,
     this.padding,
-    this.isGradientColored,
-    this.shape, this.text, this.margin, this.widget, this.textStyle,
+    this.isGradientColored = false,
+    this.shape,
+    this.text = "",
+    this.margin,
+    this.widget,
+    this.textStyle,
+    this.height,
+    this.width,
   });
 
   final VoidCallback? onPressed;
-  final Widget? icon,widget;
+  final Widget? icon, widget;
   final Color? color;
-  final bool? isChildIcon;
-  final double? borderRadius;
-  final EdgeInsetsDirectional? margin,padding;
-  final bool? isGradientColored;
+  final EdgeInsetsDirectional? margin, padding;
   final OutlinedBorder? shape;
   final TextStyle? textStyle;
-  final String? text;
-
+  final bool isChildIcon, isGradientColored;
+  final String text;
+  final double? borderRadius, height, width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: isChildIcon?? false?60:null,
-      width: isChildIcon?? false?60:null,
-      margin: margin?? const EdgeInsetsDirectional.all(0),
-      decoration:
-           BoxDecoration(
-        color: isGradientColored ?? false
-            ? Colors.transparent
-            : color ?? ColorScheme.of(context).primaryContainer,
-              borderRadius: BorderRadiusGeometry.circular(borderRadius ?? 8),
-           gradient:isGradientColored ?? false? LinearGradient(
-                colors: [
-                  ColorScheme.of(context).secondaryContainer,
-                  ColorScheme.of(context).primaryContainer,
-                ],
-              ): null,
-            ),
+      height: height,
+      width: width,
+      margin: margin ?? const EdgeInsetsDirectional.all(0),
+      decoration: BoxDecoration(
+        color: isGradientColored ? Colors.transparent : color ?? ColorScheme.of(context).primaryContainer,
+        borderRadius: BorderRadiusGeometry.circular(borderRadius ?? 8),
+        gradient: isGradientColored
+            ? LinearGradient(
+                colors: [ColorScheme.of(context).secondaryContainer, ColorScheme.of(context).primaryContainer],
+              )
+            : null,
+      ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          backgroundColor:const WidgetStatePropertyAll(Colors.transparent) ,
-          padding: WidgetStatePropertyAll(padding??const EdgeInsetsDirectional.symmetric(vertical: 19)),
+          backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+          padding: WidgetStatePropertyAll(padding ?? const EdgeInsetsDirectional.symmetric(vertical: 19)),
           elevation: const WidgetStatePropertyAll(0),
+          shape: shape != null
+              ? WidgetStatePropertyAll(shape)
+              : WidgetStatePropertyAll(
+                  RoundedSuperellipseBorder(borderRadius: BorderRadiusGeometry.circular(borderRadius ?? 8)),
+                ),
           alignment: AlignmentGeometry.center,
-          shape: WidgetStatePropertyAll(
-            isChildIcon ?? false
-                ? RoundedSuperellipseBorder(
-                    borderRadius: BorderRadiusGeometry.circular(16),
-                  )
-                : shape??RoundedSuperellipseBorder(
-              borderRadius: BorderRadiusGeometry.circular(8),
-            ),
-          ),
         ),
-        child: isChildIcon ?? false
-            ? icon
-            :text!=null? AppText(
-          text ?? "",
-          style: Theme.of(context).textTheme.bodyMedium?.merge(textStyle),
-        ):widget,
+        child: text.isNotEmpty
+            ? AppText(text, style: Theme.of(context).textTheme.bodyMedium?.merge(textStyle))
+            : widget,
       ),
     );
   }

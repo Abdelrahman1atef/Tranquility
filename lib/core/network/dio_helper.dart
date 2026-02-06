@@ -11,12 +11,12 @@ Duration apiTimeOut = const Duration(seconds: 50);
 
 enum DataStates { uninitialized, loading, loaded, error }
 
-class CustomResponse {
+class CustomResponse<T> {
   final bool isSuccess;
-  final dynamic data;
+  final T? data;
   final String? msg;
 
-  CustomResponse({required this.isSuccess, required this.data, this.msg});
+  CustomResponse({required this.isSuccess,  this.data, this.msg});
 }
 
 class DioHelper {
@@ -41,7 +41,28 @@ class DioHelper {
       ),
     });
 
-  static Future<CustomResponse> postData({
+  static CustomResponse<T> _handleResponse<T>(Response<T> response) {
+    final isSuccess = response.statusCode != null &&
+        response.statusCode! >= 200 &&
+        response.statusCode! < 300;
+
+    final dynamic body = response.data;
+
+    String? message;
+
+    if (body is Map<String, dynamic>) {
+      message = body["message"]?.toString();
+    }
+
+    return CustomResponse<T>(
+      isSuccess: isSuccess,
+      data: body as T?,
+      msg: message,
+    );
+  }
+
+
+  static Future<CustomResponse<T>> postData<T>({
     required String endpoint,
      dynamic data,
     dynamic queryParameters,
@@ -49,57 +70,43 @@ class DioHelper {
     var token = CashHelper.getToken();
     _dio.options.headers.addAll({"Authorization": "Bearer $token"});
     try {
-      final response = await _dio.post<dynamic>(endpoint, queryParameters: queryParameters, data: data);
-      if (response.data == null || response.statusCode == 200) {
-        if(response.data["message"]==null) {
-          return CustomResponse(isSuccess: true, data: response.data);
-        }
-        return CustomResponse(isSuccess: true, data: response.data,msg: response.data["message"]);
-      }
-      return CustomResponse(isSuccess: false, data: response.data,msg: response.data["message"]);
+      final response = await _dio.post<T>(endpoint, queryParameters: queryParameters, data: data);
+      return _handleResponse(response);
     } on DioException catch (ex) {
       return CustomResponse(isSuccess: false, data: ex.response?.data);
     }
   }
 
-  static Future<CustomResponse> putData({required String endpoint,dynamic queryParameters,  dynamic data}) async {
+  static Future<CustomResponse<T>> putData<T>({required String endpoint,dynamic queryParameters,  dynamic data}) async {
     var token = CashHelper.getToken();
     _dio.options.headers.addAll({"Authorization": "Bearer $token"});
     try {
-      final response = await _dio.put<dynamic>(endpoint, data: data,queryParameters: queryParameters);
-      if (response.data == null || response.statusCode == 200) {
-        return CustomResponse(isSuccess: true, data: response.data);
-      }
-      return CustomResponse(isSuccess: false, data: response.data);
+      final response = await _dio.put<T>(endpoint, data: data,queryParameters: queryParameters);
+      return _handleResponse(response);
     } on DioException catch (ex) {
       return CustomResponse(isSuccess: false, data: ex.response?.data);
     }
   }
 
-  static Future<CustomResponse> getData(String endpoint, [dynamic queryParameters]) async {
+  static Future<CustomResponse<T>> getData<T>(String endpoint, [dynamic queryParameters]) async {
     var token = CashHelper.getToken();
     _dio.options.headers.addAll({"Authorization": "Bearer $token"});
     try {
-      final response = await _dio.get<dynamic>(endpoint, queryParameters: queryParameters);
-      if (response.data == null || response.statusCode == 200) {
-        return CustomResponse(isSuccess: true, data: response.data);
-      }
-      return CustomResponse(isSuccess: false, data: response.data);
+      final response = await _dio.get<T>(endpoint, queryParameters: queryParameters);
+      return _handleResponse(response);
     } on DioException catch (ex) {
-      return CustomResponse(isSuccess: false, msg: ex.message, data: {});
+      return CustomResponse(isSuccess: false, msg: ex.message);
     }
   }
-  static Future<CustomResponse> deleteData({required String endpoint}) async {
+  static Future<CustomResponse<T>> deleteData<T>({required String endpoint}) async {
     var token = CashHelper.getToken();
     _dio.options.headers.addAll({"Authorization": "Bearer $token"});
     try {
-      final response = await _dio.delete<dynamic>(endpoint);
-      if (response.data == null || response.statusCode == 200) {
-        return CustomResponse(isSuccess: true, data: response.data);
-      }
-      return CustomResponse(isSuccess: false, data: response.data);
+      final response = await _dio.delete<T>(endpoint);
+
+      return _handleResponse(response);
     } on DioException catch (ex) {
-      return CustomResponse(isSuccess: false, msg: ex.message, data: {});
+      return CustomResponse(isSuccess: false, msg: ex.message);
     }
   }
 }

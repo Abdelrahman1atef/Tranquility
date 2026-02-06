@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tranquility/core/widgets/app_Image.dart';
 import 'package:tranquility/core/widgets/app_text.dart';
 
+import '../core/logic/cash_helper.dart';
+import '../core/logic/helper_methods.dart';
 import 'login/view.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -16,6 +18,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   int currentPage = 0;
   final duration = const Duration(milliseconds: 300);
   final curve = Curves.easeIn;
+
   @override
   void initState() {
     super.initState();
@@ -23,11 +26,13 @@ class _OnboardingViewState extends State<OnboardingView> {
       currentPage = controller.page?.round() ?? 0;
     });
   }
+
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,19 +55,13 @@ class _OnboardingViewState extends State<OnboardingView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppText(
-                          item.title,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                        AppText(item.title, style: Theme.of(context).textTheme.titleLarge),
                         const SizedBox(height: 24),
                         AppText(
                           item.description
                               .split(' ')
                               .map(
-                                (word) => word.isEmpty
-                                    ? ''
-                                    : word[0].toUpperCase() +
-                                          word.substring(1).toLowerCase(),
+                                (word) => word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1).toLowerCase(),
                               )
                               .join(' '),
                         ),
@@ -71,49 +70,42 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ),
                 ],
               ),
-                Padding(
-                  padding: const EdgeInsetsGeometry.only(
-                    bottom: 30,
-                    right: 25,
-                    left: 25,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-              if (index != onboardingItems.length - 1)
-                      //todo add nav to next screen
+              Padding(
+                padding: const EdgeInsetsGeometry.only(bottom: 30, right: 25, left: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (index != onboardingItems.length - 1)
                       TextButton(
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const LoginView(),),(route) => false,);
+                          CashHelper.setFirstTime();
+                          goto(const LoginView());
                         },
-                        child: AppText(
-                          "Skip",
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
+                        child: AppText("Skip", style: Theme.of(context).textTheme.labelSmall),
                       ),
-              if (index == onboardingItems.length - 1)
-                      const SizedBox.shrink(),
-                      InkWell(
-                        onTap: () {
-                          if(index == onboardingItems.length - 1){
-                            Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const LoginView(),),(route) => false,);
-                            return;
-                          }
-                          controller.animateToPage(
-                              ++currentPage, duration: duration, curve: curve);
-                        },
-                        child: Container(
-                          padding: const EdgeInsetsGeometry.all(14),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Theme.of(context).colorScheme.primaryContainer,
-                          ),
-                          child: const AppImage(image: "arrow.svg"),
+                    if (index == onboardingItems.length - 1) const SizedBox.shrink(),
+                    InkWell(
+                      onTap: () {
+                        if (index == onboardingItems.length - 1) {
+                          CashHelper.setFirstTime();
+
+                          goto(const LoginView());
+                          return;
+                        }
+                        controller.animateToPage(++currentPage, duration: duration, curve: curve);
+                      },
+                      child: Container(
+                        padding: const EdgeInsetsGeometry.all(14),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).colorScheme.primaryContainer,
                         ),
+                        child: const AppImage(image: "arrow.svg"),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
             ],
           );
         },
@@ -126,14 +118,12 @@ final onboardingItems = [
   OnboardingItem(
     image: "on_boarding2.jpg",
     title: "Feel Free",
-    description:
-        "because I'm the friendly chatbot here to assist you with anything you need.",
+    description: "because I'm the friendly chatbot here to assist you with anything you need.",
   ),
   OnboardingItem(
     image: "on_boarding1.jpg",
     title: "Ask For Anything",
-    description:
-        "I'm your friendly neighborhood chatbot ready to assist you with any questions or concerns.",
+    description: "I'm your friendly neighborhood chatbot ready to assist you with any questions or concerns.",
   ),
   OnboardingItem(
     image: "on_boarding3.jpg",
@@ -147,9 +137,5 @@ class OnboardingItem {
   final String title;
   final String description;
 
-  OnboardingItem({
-    required this.image,
-    required this.title,
-    required this.description,
-  });
+  OnboardingItem({required this.image, required this.title, required this.description});
 }

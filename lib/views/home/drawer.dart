@@ -42,61 +42,44 @@ final drawerItems = [
   ),
 ];
 
-class DrawerItems extends StatefulWidget {
-  const DrawerItems({super.key, required this.item, required this.index});
+class DrawerItems extends StatelessWidget {
+  const DrawerItems({super.key, required this.item, required this.index, this.onSwitchTap, this.isSwitched = false});
 
   final DrawerItem item;
   final int index;
-
-  @override
-  State<DrawerItems> createState() => _DrawerItemsState();
-}
-
-class _DrawerItemsState extends State<DrawerItems> {
-  bool isSwitched = false;
-
-  @override
-  void initState() {
-    isSwitched = CashHelper.getUserData()!.isEasyLoginEnabled;
-    super.initState();
-  }
-  //todo enable easy login
-  // static toggleAction(){
-  //
-  // }
+  final bool? isSwitched;
+  final ValueChanged<bool>? onSwitchTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsetsGeometry.all(16),
-      decoration: BoxDecoration(borderRadius: BorderRadiusGeometry.circular(8), color: widget.item.fillColor),
+      decoration: BoxDecoration(borderRadius: BorderRadiusGeometry.circular(8), color: item.fillColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              widget.item.icon,
+              item.icon,
               const SizedBox(width: 16),
               AppText(
-                widget.item.title,
+                item.title,
                 maxLines: 1,
-                style: widget.index != drawerItems.length - 1
+                style: index != drawerItems.length - 1
                     ? theme.textTheme.labelLarge
                     : theme.textTheme.labelLarge?.copyWith(color: theme.colorScheme.error),
               ),
             ],
           ),
-          if (widget.item.haveSwitch)
+          if (item.haveSwitch)
             CupertinoSwitch(
               trackOutlineColor: const WidgetStatePropertyAll(null),
               trackOutlineWidth: const WidgetStatePropertyAll(0),
               activeTrackColor: const Color(0xFF2F65F0),
               inactiveTrackColor: const Color(0xFFC0C0C0),
-              value: isSwitched,
-              onChanged: (value) => setState(() {
-                isSwitched = value;
-              }),
+              value: isSwitched ?? false,
+              onChanged: onSwitchTap,
             ),
         ],
       ),
@@ -104,10 +87,32 @@ class _DrawerItemsState extends State<DrawerItems> {
   }
 }
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
-  Future<void> _toggleEasyLogin() async {
 
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+  bool isSwitched = false;
+  Data? user;
+  @override
+  void initState() {
+    isSwitched = CashHelper.getUserData()?.isEasyLoginEnabled ?? false;
+    user = CashHelper.getUserData();
+    super.initState();
+  }
+
+  Future<void> _toggleSwitch<T>(bool value) async {
+    final CustomResponse<T> response = await DioHelper.postData(endpoint: "api/Profile/toggle-easy-login");
+    if (response.isSuccess) {
+      isSwitched = value;
+      await CashHelper.setEasyLoginEnabled(value);
+    } else {
+      showMsg(response.msg);
+    }
+    setState(() {});
   }
 
   @override
@@ -117,20 +122,22 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            width: double.infinity,
             padding: const EdgeInsetsGeometry.only(top: kToolbarHeight, bottom: kToolbarHeight / 2),
-
             decoration: BoxDecoration(
               color: theme.primaryColor,
               borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25)),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const AppImage(image: "profile.png", height: 160),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: AppImage(image:  user?.imageUrl??"", height: 200, width: 200, fit: BoxFit.cover),
+                ),
                 const SizedBox(height: 14),
                 AppText(
-                  "Sara",
+                  user?.name??"USER",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontVariations: const [FontVariation("wght", 400)],
@@ -139,7 +146,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 AppText(
-                  "01027545631",
+                  user?.email??"email@example.com",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontVariations: const [FontVariation("wght", 400)],
@@ -157,7 +164,7 @@ class AppDrawer extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = drawerItems[index];
                 return InkWell(
-                  onTap: () async{
+                  onTap: () async {
                     switch (item.title) {
                       case "About Us":
                         goto(const AboutUsView(), canPop: true);
@@ -166,19 +173,17 @@ class AppDrawer extends StatelessWidget {
                         goto(const SuggestionsView(), canPop: true);
                         break;
                       case "Enable Easy Login":
-
+                        await _toggleSwitch(!isSwitched);
                         break;
                       case "Logout":
                         CashHelper.removeUserData();
                         goto(const LoginView(), canPop: false);
                         break;
-                      default:
-                        goto(const AboutUsView(), canPop: true);
-                        break;
                     }
-                    // goto(item.screen ?? const AboutUsView(), canPop: item.screen == const LoginView() ? false : true);
                   },
-                  child: DrawerItems(item: item, index: index),
+                  child: index != 3
+                      ? DrawerItems(item: item, index: index)
+                      : DrawerItems(item: item, index: index, isSwitched: isSwitched, onSwitchTap: _toggleSwitch),
                 );
               },
             ),
@@ -187,5 +192,4 @@ class AppDrawer extends StatelessWidget {
       ),
     );
   }
-
 }

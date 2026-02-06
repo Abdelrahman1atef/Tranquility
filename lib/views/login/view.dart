@@ -39,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
       goto(const HomeView(),canPop: false);
     } else {
       _state = DataStates.error;
-      showMsg(response.msg,isError: true);
+      showMsg(response.msg, isError: true);
     }
     setState(() {});
   }
@@ -120,34 +120,35 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         AppButton(
                           onPressed: () {},
-                          isChildIcon: true,
-                          padding: const EdgeInsetsDirectional.symmetric(vertical: 18),
+                          width: 70,
+                          height: 70,
                           color: Theme.of(context).colorScheme.surface,
-                          shape: RoundedSuperellipseBorder(borderRadius: BorderRadiusGeometry.circular(8)),
-                          icon: const AppImage(image: "finger_print.svg"),
+                          widget: const AppImage(image: "finger_print.svg"),
                         ),
 
                         Expanded(
                           child: AppButton(
-                            onPressed: _state == DataStates.loading? null: () async {
-                              if (!_key.currentState!.validate()) return;
-                              final data = LoginRequest(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text,
-                                deviceToken: CashHelper.getFcmToken(),
-                                deviceType: getPlatform(),
-                              );
-                              _login(data: data);
-                            },
+                            onPressed: _state == DataStates.loading
+                                ? null
+                                : () async {
+                                    if (!_key.currentState!.validate()) return;
+                                    final data = LoginRequest(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text,
+                                      deviceToken: CashHelper.getFcmToken(),
+                                      deviceType: getPlatform(),
+                                    );
+                                    _login(data: data);
+                                  },
                             padding: const EdgeInsetsDirectional.symmetric(vertical: 20),
                             shape: ContinuousRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12)),
                             borderRadius: 10,
                             widget: _state == DataStates.loading
-                                ? const CircularProgressIndicator(color: Colors.white,)
-                                :AppText(
-                              "Log In" ,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                    constraints: BoxConstraints(minWidth: 30, minHeight: 30),
+                                  )
+                                : AppText("Log In", style: Theme.of(context).textTheme.bodyMedium),
                           ),
                         ),
                       ],
@@ -177,11 +178,13 @@ class _LoginViewState extends State<LoginView> {
                           color: const Color(0xFF35B542).withValues(alpha: 0.5),
                           imageString: "google.svg",
                           text: "Login With Google",
+                          onTap: () {},
                         ),
                         _SocialLoginWidget(
                           color: const Color(0xFF518EF8).withValues(alpha: 0.5),
                           imageString: "facebook.svg",
                           text: "Login With Facebook",
+                          onTap: () {},
                         ),
                       ],
                     ),
@@ -197,32 +200,39 @@ class _LoginViewState extends State<LoginView> {
 }
 
 class _SocialLoginWidget extends StatelessWidget {
-  const _SocialLoginWidget({required this.color, required this.imageString, required this.text});
+  const _SocialLoginWidget({required this.color, required this.imageString, required this.text, required this.onTap});
 
   final Color color;
   final String imageString;
   final String text;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(minHeight: 50),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadiusGeometry.circular(8)),
-      child: Row(
-        spacing: 8,
-        children: [
-          Container(
-            constraints: const BoxConstraints(minWidth: 50, minHeight: 50),
-            padding: const EdgeInsetsGeometry.all(13),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-              color: Colors.white,
-              border: Border(left: BorderSide(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 3)),
+    return InkWell(
+      onTap: onTap,
+      overlayColor: WidgetStatePropertyAll(color),
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 50),
+        decoration: BoxDecoration(color: color, borderRadius: BorderRadiusGeometry.circular(8)),
+        child: Row(
+          spacing: 8,
+          children: [
+            Container(
+              constraints: const BoxConstraints(minWidth: 50, minHeight: 50),
+              padding: const EdgeInsetsGeometry.all(13),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                color: Colors.white,
+                border: Border(
+                  left: BorderSide(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 3),
+                ),
+              ),
+              child: AppImage(image: imageString, width: 30, fit: BoxFit.cover),
             ),
-            child: AppImage(image: imageString, width: 30, fit: BoxFit.cover),
-          ),
-          AppText(text, style: Theme.of(context).textTheme.bodyLarge),
-        ],
+            AppText(text, style: Theme.of(context).textTheme.bodyLarge),
+          ],
+        ),
       ),
     );
   }

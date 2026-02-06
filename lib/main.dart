@@ -4,6 +4,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:tranquility/core/logic/cash_helper.dart';
 import 'package:tranquility/views/home/view.dart';
 import 'package:tranquility/views/login/view.dart';
+import 'package:tranquility/views/splash.dart';
 
 import 'core/logic/helper_methods.dart';
 import 'firebase_options.dart';
@@ -27,7 +28,7 @@ class Tranquility extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navKey,
-      home: const LoginView(),
+      home: const SplashView(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         drawerTheme: DrawerThemeData(

@@ -8,8 +8,10 @@ import 'app_text.dart';
 
 class AppAddImage extends StatefulWidget {
   const AppAddImage({super.key, this.image, required this.onChange});
+
   final String? image;
   final ValueChanged<String> onChange;
+
   @override
   State<AppAddImage> createState() => _AppAddImageState();
 }
@@ -38,7 +40,7 @@ class _AppAddImageState extends State<AppAddImage> {
       if (!mounted) return;
       Navigator.pop(context!);
       imagePath = photo.path;
-      setState(() {} );
+      setState(() {});
       widget.onChange(imagePath);
     }
   }
@@ -57,7 +59,7 @@ class _AppAddImageState extends State<AppAddImage> {
       if (!mounted) return;
       Navigator.pop(context!);
       imagePath = photo.path;
-      setState(() {} );
+      setState(() {});
       widget.onChange(imagePath);
     }
   }
@@ -74,7 +76,11 @@ class _AppAddImageState extends State<AppAddImage> {
     return _CirclePicker(
       imagePath: imagePath,
       onPickTap: showPickerSheet,
-      onDeleteTap: () => setState(() => imagePath = ""),
+      onDeleteTap: () {
+        imagePath = "";
+        setState(() {});
+        widget.onChange(imagePath);
+      },
     );
   }
 }
@@ -144,7 +150,7 @@ class _CirclePicker extends StatelessWidget {
             child: GestureDetector(
               onTap: imagePath.isEmpty ? null : onDeleteTap,
               child: CircleAvatar(
-                backgroundColor: imagePath.isNotEmpty ?color.errorContainer:theme.primaryColor,
+                backgroundColor: imagePath.isNotEmpty ? color.errorContainer : theme.primaryColor,
                 radius: 30,
                 child: AppImage(
                   image: imagePath.isEmpty ? "add.svg" : "delete_chat.svg",

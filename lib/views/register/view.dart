@@ -40,10 +40,10 @@ class _RegisterViewState extends State<RegisterView> {
     super.dispose();
   }
 
-  Future<void> _register(RegisterRequest data) async {
+  Future<void> _register<T>(RegisterRequest data) async {
     _state = DataStates.loading;
     setState(() {});
-    final response = await DioHelper.postData(endpoint: "api/Auth/register", data: data.toFormData());
+    final CustomResponse<T> response = await DioHelper.postData(endpoint: "api/Auth/register", data: data.toFormData());
     if (response.isSuccess) {
       showMsg(response.msg);
       goto(OtpView(isForgetPassword: false, email: _emailController.text));
@@ -187,22 +187,29 @@ class _RegisterViewState extends State<RegisterView> {
                           child: AppButton(
                             padding: const EdgeInsetsDirectional.symmetric(vertical: 16),
                             shape: RoundedSuperellipseBorder(borderRadius: BorderRadiusGeometry.circular(8)),
-                            onPressed: () async {
-                              if (_selectedImage == "" || _selectedImage.isEmpty) {
-                                showMsg("Please Select Image", isError: true);
-                              }
-                              if (!_formKey.currentState!.validate()) return;
-                              final data = RegisterRequest(
-                                name: _usernameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                                confirmPassword: _confirmPasswordController.text,
-                                age: _ageController.text,
-                                gender: _selectedGender,
-                              );
-                              await _register(data);
-                            },
-                            text: "Sign Up",
+                            onPressed: _state == DataStates.loading
+                                ? null
+                                : () async {
+                                    if (_selectedImage == "" || _selectedImage.isEmpty) {
+                                      showMsg("Please Select Image", isError: true);
+                                    }
+                                    if (!_formKey.currentState!.validate()) return;
+                                    final data = RegisterRequest(
+                                      name: _usernameController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                      confirmPassword: _confirmPasswordController.text,
+                                      age: _ageController.text,
+                                      gender: _selectedGender,
+                                    );
+                                    await _register(data);
+                                  },
+                            widget: _state == DataStates.loading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                    constraints: BoxConstraints(minWidth: 30, minHeight: 30),
+                                  )
+                                : AppText("Sign Up", style: Theme.of(context).textTheme.bodyMedium),
                           ),
                         ),
                       ],
