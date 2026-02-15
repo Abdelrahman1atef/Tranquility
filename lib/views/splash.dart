@@ -38,7 +38,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
     final response = await DioHelper.getData("api/Profile");
     if (response.isSuccess) {
       final data = Data.fromJson(response.data);
-      //todo update this
       await CashHelper.setUserDate(data);
       Future.delayed(
         const Duration(milliseconds: 2000),

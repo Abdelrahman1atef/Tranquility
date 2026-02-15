@@ -58,7 +58,8 @@ class _OtpViewState extends State<OtpView> {
       final response = await DioHelper.postData(endpoint: "api/Auth/verify-otp", data: data.toFormData());
       if (response.isSuccess) {
         final loginResponse = LoginResponse.fromJson(response.data);
-        CashHelper.setUserDate(loginResponse);
+        CashHelper.setUserDate(loginResponse.data);
+        CashHelper.setToken(loginResponse.data.token);
         showMsg(response.msg);
         goto(const HomeView());
         _state = DataStates.loaded;

@@ -35,7 +35,8 @@ class _LoginViewState extends State<LoginView> {
     if (response.isSuccess) {
       _state = DataStates.loaded;
       final loginResponse = LoginResponse.fromJson(response.data);
-      await CashHelper.setUserDate(loginResponse);
+      await CashHelper.setUserDate(loginResponse.data);
+      await CashHelper.setToken(loginResponse.data.token);
       goto(const HomeView(),canPop: false);
     } else {
       _state = DataStates.error;
@@ -48,7 +49,10 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SingleChildScrollView(
+      body:
+
+
+      SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsetsGeometry.only(top: kToolbarHeight),
           child: Column(

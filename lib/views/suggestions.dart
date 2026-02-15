@@ -33,10 +33,7 @@ class _SuggestionsViewState extends State<SuggestionsView> {
   Future<void> _forgetPassword<T>() async {
     _state = DataStates.loading;
     setState(() {});
-    final data = FormData.fromMap({
-      "Subject": _subjectController.text,
-      "Body": _bodyController.text,
-    });
+    final data = FormData.fromMap({"Subject": _subjectController.text, "Body": _bodyController.text});
     final CustomResponse<T> response = await DioHelper.postData(endpoint: "api/Suggestions", data: data);
     if (response.isSuccess) {
       _state = DataStates.loaded;
@@ -48,6 +45,7 @@ class _SuggestionsViewState extends State<SuggestionsView> {
     }
     setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -55,20 +53,19 @@ class _SuggestionsViewState extends State<SuggestionsView> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const CustomAppBar(haveTitle: true, haveSearchBar: false, title: "Suggestions"),
       body: SingleChildScrollView(
+        padding: const EdgeInsetsDirectional.only(top: 50),
         child: Form(
           key: _key,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [AppImage(image: "Suggest.png", width: 250)],
-              ),
+              const AppImage(image: "Suggest.png", width: 170, height: 170, fit: BoxFit.cover),
               AppText(
                 "Tell Us How We Can Help",
                 textAlign: TextAlign.center,
                 style: theme.textTheme.titleMedium?.copyWith(fontSize: 22),
               ),
+              const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
                 child: Column(
@@ -87,7 +84,7 @@ class _SuggestionsViewState extends State<SuggestionsView> {
                     AppInputText(
                       controller: _bodyController,
                       hintText: "body",
-                      maxLines: 10,
+                      maxLines: 5,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Body is required";
@@ -100,15 +97,16 @@ class _SuggestionsViewState extends State<SuggestionsView> {
                       children: [
                         Expanded(
                           child: AppButton(
-                            onPressed: () async{
+                            onPressed: () async {
                               if (!_key.currentState!.validate()) return;
                               await _forgetPassword();
                             },
                             widget: _state == DataStates.loading
-                                ? const CircularProgressIndicator(color: Colors.white,
-                              constraints: BoxConstraints(minWidth: 30, minHeight: 30),)
-                                : AppText( "Send Message",style: Theme.of(context).textTheme.bodyMedium),
-
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                    constraints: BoxConstraints(minWidth: 30, minHeight: 30),
+                                  )
+                                : AppText("Send Message", style: Theme.of(context).textTheme.bodyMedium),
                           ),
                         ),
                       ],

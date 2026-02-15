@@ -32,15 +32,16 @@ class LoginResponse {
 }
 
 class Data {
-  late final String token;
-  late final int id;
-  late final String email;
-  late final String name;
-  late final String imageUrl;
-  late final int age;
-  late final String gender;
-  late final bool isVerified;
-  late final bool isEasyLoginEnabled;
+   final String? token;
+   final int id;
+   final String email;
+   final String? name;
+   final String imageUrl;
+   final int age;
+   final String gender;
+   final bool? isVerified;
+   final bool isEasyLoginEnabled;
+
 
   Data({
     required this.token,
@@ -54,15 +55,17 @@ class Data {
     required this.isEasyLoginEnabled,
   });
 
-  Data.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
-    id = json['id'];
-    email = json['email'];
-    name = json['name'];
-    imageUrl = json['imageUrl'];
-    age = json['age'];
-    gender = json['gender'];
-    isVerified = json['isVerified'];
-    isEasyLoginEnabled = json['isEasyLoginEnabled'];
+  factory  Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      token: json['token'],
+      id: json['id'],
+      email: json['email'],
+      name: json['name'],
+      imageUrl: json['imageUrl'],
+      age: json['age'],
+      gender: json['gender'],
+      isVerified: json['isVerified'],
+      isEasyLoginEnabled: json['isEasyLoginEnabled'],
+    );
   }
 }

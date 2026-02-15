@@ -13,9 +13,9 @@ class CashHelper {
       await _pref.setInt(key, value);
     } else if (value is String) {
       await _pref.setString(key, value);
-    }else if (value is bool) {
+    } else if (value is bool) {
       await _pref.setBool(key, value);
-    }else if (value is double) {
+    } else if (value is double) {
       await _pref.setDouble(key, value);
     }
   }
@@ -27,12 +27,19 @@ class CashHelper {
   static bool? getFirstTime() {
     return _pref.getBool("isFirstTime");
   }
+
   static Future<void> setFcmToken(String token) async {
     await _pref.setString("fcmToken", token);
   }
+
   static String getFcmToken() {
-    return _pref.getString("fcmToken")??"";
+    return _pref.getString("fcmToken") ?? "";
   }
+
+  static Future<void> setToken(String? token) async {
+    await _pref.setString("token", token??"");
+  }
+
   static String? getToken() {
     return _pref.getString("token");
   }
@@ -40,16 +47,15 @@ class CashHelper {
   static Future<void> setEasyLoginEnabled(bool value) async {
     await _pref.setBool("isEasyLoginEnabled", value);
   }
-  static Future<void> setUserDate(LoginResponse response,Data data) async {
-    Data data = response.data;
-    await _pref.setString("token", data.token);
+
+  static Future<void> setUserDate(Data data) async {
     await _pref.setInt("id", data.id);
-    await _pref.setString("name", data.name);
+    await _pref.setString("name", data.name??"Gust");
     await _pref.setString("email", data.email);
     await _pref.setString("imageUrl", data.imageUrl);
     await _pref.setString("gender", data.gender);
     await _pref.setInt("age", data.age);
-    await _pref.setBool("isVerified", data.isVerified);
+    await _pref.setBool("isVerified", data.isVerified??false);
     await _pref.setBool("isEasyLoginEnabled", data.isEasyLoginEnabled);
   }
 
@@ -91,8 +97,4 @@ class CashHelper {
     await _pref.remove("isVerified");
     await _pref.remove("isEasyLoginEnabled");
   }
-
-
-
-
 }
